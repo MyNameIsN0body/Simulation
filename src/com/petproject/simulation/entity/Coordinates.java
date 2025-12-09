@@ -1,6 +1,4 @@
-package com.petproject.simulation;
-
-import java.util.Objects;
+package com.petproject.simulation.entity;
 
 public class Coordinates {
     private final Integer x;
