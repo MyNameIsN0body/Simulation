@@ -1,5 +1,7 @@
 package com.petproject.simulation.entity;
 
+import java.util.Objects;
+
 public class Coordinates {
     private final Integer x;
     private final Integer y;
@@ -22,16 +24,16 @@ public class Coordinates {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Coordinates that = (Coordinates) o;
-        return x.equals(that.x) && y.equals(that.y);
+        return x == that.x && y == that.y;
     }
 
     @Override
     public int hashCode() {
-        return 31 * x + y;
+        return Objects.hash(x, y);
     }
 
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")";
+        return String.format("{%d:%d}", x, y);
     }
 }

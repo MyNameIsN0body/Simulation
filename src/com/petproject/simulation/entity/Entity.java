@@ -1,23 +1,24 @@
 package com.petproject.simulation.entity;
 
 public abstract class Entity {
-    private  Coordinates coordinates;
+//    private  Coordinates coordinates;
+    protected final EntityType type;
 
-    public Entity(Coordinates coordinates) {
-        this.coordinates = coordinates;
+    public EntityType getType() {
+        return type;
     }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
+    public Entity(EntityType type) {
+//        this.coordinates = coordinates;
+        this.type = type;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public String getTypeName() {
-        return this.getClass().getSimpleName().toLowerCase();
-    }
-
+//    public Coordinates getCoordinates() {
+//        return coordinates;
+//    }
+//
+//    public void setCoordinates(Coordinates coordinates) {
+//        this.coordinates = coordinates;
+//    }
 
 }

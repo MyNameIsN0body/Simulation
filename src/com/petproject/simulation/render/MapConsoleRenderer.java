@@ -1,32 +1,25 @@
 package com.petproject.simulation.render;
 
-import com.petproject.simulation.entity.Coordinates;
-import com.petproject.simulation.world.Map;
+import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.world.WorldMap;
 
 public class MapConsoleRenderer {
 
-    public void renderWorld(Map map) {
-
-        for (int y = 0; y < map.getWorldWidth(); y++) {
-            System.out.println(" ");
-            for (int x = 0; x < map.getWorldLength(); x++) {
-                if (map.isCellEmpty(x, y)) {
-                    System.out.print("⬜"); //□ 🏼
+    public void renderWorld(WorldMap worldMap) {
+        for (int y = 0; y < worldMap.getWorldWidth(); y++) {
+            System.out.println();
+            for (int x = 0; x < worldMap.getWorldLength(); x++) {
+                if (worldMap.isCellEmpty(x, y)) {
+                    System.out.print(EntityType.EMPTY.getSprite());
                 } else {
-                    System.out.print(renderSprite(x, y, map));
+                    System.out.print(renderSprite(x, y, worldMap));
                 }
             }
         }
-
+        System.out.println("\n");
     }
 
-    private boolean isEntity(int x, int y, Map map) {
-        return map.getMap().containsKey(new Coordinates(x, y));
-    }
-
-
-    private String renderSprite(int x, int y, Map map) {
-
-        return ConsoleSprite.getSprite(map.getEntityType(x, y));
+    private String renderSprite(int x, int y, WorldMap worldMap) {
+        return worldMap.getEntity(x, y).getType().getSprite();
     }
 }
