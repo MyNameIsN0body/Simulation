@@ -114,7 +114,6 @@ public class BFSPathfinder {
             }
         }
 
-//        System.out.println("Цель типа '" + targetType + "' не найдена для " + start);
         return new ArrayList<>();
     }
 

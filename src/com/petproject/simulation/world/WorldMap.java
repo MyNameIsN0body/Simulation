@@ -50,9 +50,6 @@ public class WorldMap {
     public Entity getEntity(int x, int y) {
         return entityMap.get(new Coordinates(x, y));
     }
-//    public Entity getEntity(Coordinates coordinates) {
-//        return entityMap.get(coordinates);
-//    }
 
     public Optional<Coordinates> getEntityCoordinate(Entity entity) {
         for (Map.Entry<Coordinates, Entity> currentEntity : entityMap.entrySet()) {
@@ -94,5 +91,17 @@ public class WorldMap {
 
     public void removeEntity(Coordinates coordinates) {
         entityMap.remove(coordinates);
+    }
+    public void removeEntity(Entity entityRemove) {
+        Coordinates keyRemove = null;
+        for (Map.Entry<Coordinates, Entity> entry: entityMap.entrySet()) {
+            if (entry.getValue().equals(entityRemove)) {
+                keyRemove = entry.getKey();
+                break;
+            }
+        }
+        if (keyRemove != null) {
+            entityMap.remove(keyRemove);
+        }
     }
 }

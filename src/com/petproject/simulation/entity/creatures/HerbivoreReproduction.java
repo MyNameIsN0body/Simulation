@@ -2,9 +2,8 @@ package com.petproject.simulation.entity.creatures;
 
 
 public class HerbivoreReproduction extends  BaseReproduction {
-    private static final int COOLDOWN = 7;
-    private static final int MIN_HEALTH = 5;
-    private static final int MIN_SATIETY = 5;
+    private static final int COOLDOWN = 3;
+    private static final int MIN_ENERGY = 3;
 
     @Override
     protected int getCooldown() {
@@ -12,13 +11,8 @@ public class HerbivoreReproduction extends  BaseReproduction {
     }
 
     @Override
-    protected int getMinHealth() {
-        return MIN_HEALTH;
-    }
-
-    @Override
-    protected int getMinSatiety() {
-        return MIN_SATIETY;
+    protected int getMinEnergy() {
+        return MIN_ENERGY;
     }
 
     @Override
@@ -33,7 +27,7 @@ public class HerbivoreReproduction extends  BaseReproduction {
 
     @Override
     protected void postReproductionActions(Creature creature, Creature partner) {
-        creature.setHealthPoint(creature.getHealthPoint() + 1);
-        partner.setHealthPoint(partner.getHealthPoint() + 1);
+        creature.setEnergy(creature.energy + 1);
+        partner.setEnergy(partner.energy + 1);
     }
 }

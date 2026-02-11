@@ -2,7 +2,7 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.entity.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.services.CellFinderService;
+import com.petproject.simulation.services.FinderService;
 import com.petproject.simulation.world.WorldMap;
 import com.petproject.simulation.world.pathfinding.BFSPathfinder;
 
@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseReproduction implements Reproduction {
-
     protected abstract int getCooldown();
-    protected abstract int getMinHealth();
-    protected abstract int getMinSatiety();
+    protected abstract int getMinEnergy();
     protected abstract String getTargetType();
     protected abstract Creature createBabyCreature();
     protected abstract void postReproductionActions(Creature creature, Creature partner);
@@ -21,11 +19,10 @@ public abstract class BaseReproduction implements Reproduction {
     @Override
     public boolean canReproduce(Creature creature, WorldMap worldMap) {
         boolean isCooldownReady = creature.getReproductionCooldown() <= 0;
-        boolean isEnoughHealth = creature.getHealthPoint() >= getMinHealth();
-        boolean isEnoughSatiety = creature.getSatiety() >= getMinSatiety();
+        boolean isEnoughSatiety = creature.getEnergy() >= getMinEnergy();
         boolean hasPartner = findPartner(creature, worldMap, getTargetType()).isPresent();
 
-        return isCooldownReady && isEnoughHealth && isEnoughSatiety && hasPartner;
+        return isCooldownReady && isEnoughSatiety && hasPartner;
     }
 
     @Override
@@ -33,9 +30,9 @@ public abstract class BaseReproduction implements Reproduction {
         Optional<Creature> partnerOptional = findPartner(creature, worldMap, getTargetType());
         if(partnerOptional.isEmpty()) {return;}
         Creature partner = partnerOptional.get();
-        Coordinates babyPosition = CellFinderService.findEmptyCellNear(creature, worldMap);
+        Coordinates babyPosition = FinderService.findEmptyCellNear(creature, worldMap);
         if (babyPosition == null) {
-            babyPosition = CellFinderService.findEmptyCellNear(partner, worldMap);
+            babyPosition = FinderService.findEmptyCellNear(partner, worldMap);
         }
         if (babyPosition != null) {
             worldMap.setEntity(babyPosition, createBabyCreature());
@@ -74,6 +71,7 @@ public abstract class BaseReproduction implements Reproduction {
 
         return Optional.empty();
     }
+
 }
 
 

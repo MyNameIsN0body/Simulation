@@ -1,9 +1,8 @@
 package com.petproject.simulation.entity.creatures;
 
 public class PredatorReproduction extends BaseReproduction {
-    private static final int COOLDOWN = 10;
-    private static final int MIN_HEALTH = 5;
-    private static final int MIN_SATIETY = 6;
+    private static final int COOLDOWN = 4;
+    private static final int MIN_ENERGY = 6;
 
     @Override
     protected int getCooldown() {
@@ -11,13 +10,8 @@ public class PredatorReproduction extends BaseReproduction {
     }
 
     @Override
-    protected int getMinHealth() {
-        return MIN_HEALTH;
-    }
-
-    @Override
-    protected int getMinSatiety() {
-        return MIN_SATIETY;
+    protected int getMinEnergy() {
+        return MIN_ENERGY;
     }
 
     @Override
@@ -32,7 +26,7 @@ public class PredatorReproduction extends BaseReproduction {
 
     @Override
     protected void postReproductionActions(Creature creature, Creature partner) {
-        creature.setSatiety(creature.getSatiety() - 3);
-        partner.setSatiety(partner.getSatiety() - 3);
+        creature.setEnergy(creature.getEnergy() - 1);
+        partner.setEnergy(partner.getEnergy() - 1);
     }
 }

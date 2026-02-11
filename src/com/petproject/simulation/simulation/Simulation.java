@@ -23,14 +23,13 @@ public class Simulation {
     public Simulation(int length, int width) {
         this.worldMap = new WorldMap(length, width);
         // Создаем команды инициализации
-//        initActions.add(new InitAction(10, 18, 18, 10, 10));
-        initActions.add(new InitAction(80, 20, 18, 20, 5));
+        initActions.add(new InitAction(80, 20, 18, 20, 3));
         // Создаем команды для каждого хода
         turnActions.add(new MoveAction());
+        turnActions.add(new EatAction());
         turnActions.add(new GrassGrowthAction());
         turnActions.add(new ReproduceAction());
-//        turnActions.add(new EatAction(map));
-//        turnActions.add(new HuntAction(map));
+
     }
 
     public int getCurrentTurn() {
@@ -42,8 +41,12 @@ public class Simulation {
     }
 
     public void nextTurn() {
-        for (Actions move : turnActions) {
-            move.execute(worldMap);
+        for (Actions step : turnActions) {
+            step.execute(worldMap);
+            System.out.println("\n" + step.toString() + "\n" );
+            currentTurn++;
+            mapConsoleRenderer.renderWorld(worldMap);
+            GameMessenger.showStatus(worldMap, currentTurn);
         }
     }
 
@@ -144,9 +147,7 @@ public class Simulation {
     }
 
     private void reproduceHerbivore() {
-//        ReproduceHerbivoreAction reproduceHerbivore = new ReproduceHerbivoreAction();
         ReproduceAction reproduceAction = new ReproduceAction();
-//        reproduceHerbivore.execute(worldMap);
         reproduceAction.execute(worldMap);
     }
 
@@ -185,8 +186,8 @@ public class Simulation {
             // Если не остановлено — выполняем итерацию
             if (running) {
                 nextTurn();
-                currentTurn++;
-                mapConsoleRenderer.renderWorld(worldMap);
+//                currentTurn++;
+//                mapConsoleRenderer.renderWorld(worldMap);
                 try {
                     Thread.sleep(700);
                 } catch (InterruptedException e) {
