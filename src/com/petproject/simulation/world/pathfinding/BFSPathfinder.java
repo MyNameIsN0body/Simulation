@@ -9,59 +9,6 @@ import com.petproject.simulation.world.WorldMap;
 import java.util.*;
 
 public class BFSPathfinder {
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public static List<Coordinates> findPathToNearest2(WorldMap worldMap, Entity entity,
-                                                       String targetType) {
-        String entityType = entity.getType().toString();
-        Optional<Coordinates> startOpt = worldMap.getEntityCoordinate(entity);
-        if (startOpt.isEmpty()) {
-            return new ArrayList<>();
-        }
-        Coordinates start = startOpt.get();
-
-        int maxRows = worldMap.getWorldLength();
-        int maxCols = worldMap.getWorldWidth();
-
-        boolean[][] visited = new boolean[maxRows][maxCols];
-        Queue<PathNode> queue = new LinkedList<>();
-
-        visited[start.getX()][start.getY()] = true;
-        queue.add(new PathNode(start, null));
-
-        while (!queue.isEmpty()) {
-            PathNode current = queue.poll();
-
-            // Пропускаем проверку самой стартовой клетки
-            if (current.coordinates == start){//(current.coordinates.equals(start)) {
-                // Продолжаем искать соседей, но не проверяем эту клетку как цель
-            } else {
-                Optional<Entity> currentEntity = worldMap.getEntity(current.coordinates);
-                // Проверяем, нашли ли цель
-                if (currentEntity.isPresent() &&
-                        currentEntity.get().getType().toString().equals(targetType)) {
-                    return reconstructPath(current);
-                }
-            }
-
-
-            // Проверяем соседей
-            for (int i = 0; i < DirectionService.DIRECTION_COUNT; i++) {
-                int newX = current.coordinates.getX() + DirectionService.DX[i];
-                int newY = current.coordinates.getY() + DirectionService.DY[i];
-
-                if (isValidCoordinate(newX, newY, maxRows, maxCols) &&
-                        !visited[newX][newY] &&
-                        isPassable(worldMap, newX, newY, entityType)) {
-
-                    visited[newX][newY] = true;
-                    Coordinates newCoord = new Coordinates(newX, newY);
-                    queue.add(new PathNode(newCoord, current));
-                }
-            }
-        }
-
-        return new ArrayList<>();
-    }
 
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public static List<Coordinates> findPathToNearest(WorldMap worldMap, Coordinates start,
