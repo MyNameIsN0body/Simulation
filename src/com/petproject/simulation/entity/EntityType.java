@@ -11,7 +11,7 @@ public enum EntityType {
 
 static {
     HERBIVORE.sprite = "🦌";//🐏"; //🐑";
-    PREDATOR.sprite = "🦖";
+    PREDATOR.sprite = "\u001B[40m🦖\u001B[0m";
     GRASS.sprite = "🌱";
     ROCK.sprite = "⛰️";
     TREE.sprite = "🌲";//🌳";
