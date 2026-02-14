@@ -52,15 +52,19 @@ public abstract class BaseReproduction implements Reproduction {
 
 
     protected Optional<Creature> findPartner(Creature seeker, WorldMap worldMap, String targetType) {
-        List<Coordinates> path = BFSPathfinder.findPathToNearest2(
+        Optional<Coordinates> start = worldMap.getEntityCoordinate(seeker);
+        if (start.isEmpty()) {
+            return Optional.empty();
+        }
+        List<Coordinates> path = BFSPathfinder.findPathToNearest(
                 worldMap,
-                seeker,
-                targetType
+                start.get(),
+                targetType,
+                seeker.getType().toString()
         );
 
         if (!path.isEmpty() && path.size() > 1) {
             Coordinates partnerCoordinate = path.get(1);
-
             Entity entity = worldMap.getEntity(partnerCoordinate.getX(), partnerCoordinate.getY());
 
             if (entity instanceof Creature &&
