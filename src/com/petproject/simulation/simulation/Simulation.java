@@ -15,6 +15,7 @@ public class Simulation {
 
     private final WorldMap worldMap;
     private int currentTurn = 0;
+
     MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
 
     private final List<Actions> initActions = new ArrayList<>();
@@ -43,10 +44,14 @@ public class Simulation {
     public void nextTurn() {
         for (Actions step : turnActions) {
             step.execute(worldMap);
-            System.out.println("\n" + step.toString() + "\n" );
+//            System.out.println("\n" + step.toString() + "\n" );
             currentTurn++;
-            mapConsoleRenderer.renderWorld(worldMap);
-            GameMessenger.showStatus(worldMap, currentTurn);
+            gameStats();
+            try {
+                Thread.sleep(700);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -55,36 +60,30 @@ public class Simulation {
         GameMessenger.showStepByStepModeMenu();
         while (running) {
             System.out.print("\nВведите команду: ");
-            System.out.println("ход номер: " + currentTurn);
             String command = scanner.nextLine().toLowerCase().trim();
             switch (command) {
+                case "step", "s":
+                    step();
+                    break;
+                case "reproduce", "r":
+                    tryReproduce();
+                    break;
+                case "+grass", "ag":
+                    addGrass(10);
+                    break;
+                case "menu", "m":
+                    GameMessenger.showStepByStepModeMenu();
+                    break;
                 case "exit", "e":
                     running = false;
                     break;
-                case "step", "st":
-                    nextTurn();
-                    currentTurn++;
-                    break;
-                case "+grass", "ag":
-                    for (int i = 0; i < 10; i++) {
-                        addGrass();
-                    }
-                    break;
-                case "reproduce", "r":
-                    reproduceHerbivore();
-                    nextTurn();
-                    currentTurn++;
-                    GameMessenger.showStatus(worldMap, currentTurn);
-                    break;
                 default:
-                    System.out.println("Неизвестная команда. Используйте: exit, e, step, st, +grass, ag, reproduce, r");
+                    System.out.println("\u001B[31mНеизвестная команда.\u001B[0m \nИспользуйте: \u001B[32mstep, s, reproduce, r, +grass, ag, menu, m, exit, e\u001B[0m");
             }
-            mapConsoleRenderer.renderWorld(worldMap);
-            GameMessenger.showStatus(worldMap, currentTurn);
         }
         scanner.close();
         System.out.println("Программа завершена.");
-
+        gameStats();
     }
 
     public void startGame() {
@@ -96,7 +95,6 @@ public class Simulation {
         if (mode.equals("1")) {
             stepByStepSimulation(scanner);
         } else if (mode.equals("2")) {
-            GameMessenger.showAutoModeMenu();
             Thread loopThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -110,16 +108,18 @@ public class Simulation {
 
 
     public void startSimulation(Scanner scanner) {
-        mapConsoleRenderer.renderWorld(worldMap);
         while (running) {
-            System.out.print("\nВведите команду: ");
+            System.out.println("\nВведите команду: ");
             String command = scanner.nextLine().toLowerCase().trim();
             switch (command) {
                 case "pause", "p":
                     pauseSimulation();
                     break;
-                case "continue", "c":
+                case "continue", "c", "run", "r":
                     continueSimulation();
+                    break;
+                case "menu", "m":
+                    GameMessenger.showAutoModeMenu();
                     break;
                 case "exit", "e":
                     running = false;
@@ -128,7 +128,7 @@ public class Simulation {
                     }
                     System.out.println("Ожидание завершения потока...");
                     break;
-                case "step", "st":
+                case "step", "s":
                     step();
                     break;
                 default:
@@ -137,26 +137,58 @@ public class Simulation {
         }
         scanner.close();
         System.out.println("Программа завершена.");
+        gameStats();
     }
 
-    private void step() {
-        nextTurn();
-        currentTurn++;
+    private void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            for (int i = 0; i < 50; i++) System.out.println();
+        }
+    }
+
+    private void gameStats() {
+        clearConsole();
         mapConsoleRenderer.renderWorld(worldMap);
         GameMessenger.showStatus(worldMap, currentTurn);
     }
 
-    private void reproduceHerbivore() {
-        ReproduceAction reproduceAction = new ReproduceAction();
-        reproduceAction.execute(worldMap);
+    private void step() {
+        for (Actions actions: turnActions) {
+            if (actions instanceof MoveAction) {
+                actions.execute(worldMap);
+            }
+        }
+        currentTurn++;
+        gameStats();
     }
 
-    private void addGrass() {
+    private void tryReproduce() {
+        for (Actions actions: turnActions) {
+            if (actions instanceof ReproduceAction) {
+                actions.execute(worldMap);
+            }
+        }
+        currentTurn++;
+        gameStats();
+    }
+
+    private void addGrass(int count) {
         GrassGrowthAction addGrass = new GrassGrowthAction();
-        addGrass.execute(worldMap);
+        for (int i = 0; i < count; i++) {
+            addGrass.execute(worldMap);
+        }
+        currentTurn++;
+        gameStats();
     }
 
-    private void pauseSimulation() { //- приостановить бесконечный цикл симуляции и рендеринга
+    private void pauseSimulation() {
         paused = true;
         System.out.println("Бесконечный цикл симуляции приостановлен.");
         System.out.println("Ход номер: " + currentTurn);
@@ -171,6 +203,8 @@ public class Simulation {
     }
 
     public void runSimulation() {
+            pauseSimulation();
+            GameMessenger.showAutoModeMenu();
         while (running) {
             // Проверяем паузу с синхронизацией
             synchronized (lock) {
@@ -186,15 +220,12 @@ public class Simulation {
             // Если не остановлено — выполняем итерацию
             if (running) {
                 nextTurn();
-//                currentTurn++;
-//                mapConsoleRenderer.renderWorld(worldMap);
                 try {
-                    Thread.sleep(700);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     break;
                 }
             }
-            GameMessenger.showStatus(worldMap, currentTurn);
         }
         System.out.println("Цикл остановлен.");
     }
