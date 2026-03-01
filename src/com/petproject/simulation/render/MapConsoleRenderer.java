@@ -1,5 +1,6 @@
 package com.petproject.simulation.render;
 
+import com.petproject.simulation.entity.Coordinates;
 import com.petproject.simulation.entity.EntityType;
 import com.petproject.simulation.world.WorldMap;
 
@@ -42,6 +43,6 @@ public class MapConsoleRenderer {
     }
 
     private String renderSprite(int x, int y, WorldMap worldMap) {
-        return worldMap.getEntity(x, y).getType().getSprite();
+        return worldMap.getEntity(new Coordinates(x, y)).get().getType().getSprite();
     }
 }

@@ -1,5 +1,7 @@
 package com.petproject.simulation.entity.creatures;
 
+import com.petproject.simulation.entity.EntityType;
+
 public class PredatorReproduction extends BaseReproduction {
     private static final int COOLDOWN = 4;
     private static final int MIN_ENERGY = 6;
@@ -15,8 +17,8 @@ public class PredatorReproduction extends BaseReproduction {
     }
 
     @Override
-    protected String getTargetType() {
-        return "PREDATOR";
+    protected EntityType getTargetType() {
+        return EntityType.PREDATOR;
     }
 
     @Override

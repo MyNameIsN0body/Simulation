@@ -24,9 +24,7 @@ public class PredatorMove extends BaseMove{
     @Override
     protected void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap) {
         worldMap.removeEntity(targetCoordinate);
-        performMove(creature, worldMap.getEntityCoordinate(creature).orElse(null),
-                targetCoordinate,
-                worldMap);
+        worldMap.moveEntity(worldMap.getEntityCoordinate(creature).orElse(null), targetCoordinate, creature);
 
         // Восстанавливаем энергии
         creature.setEnergy(creature.getEnergy() + ENERGY_FROM_HERBIVORE);

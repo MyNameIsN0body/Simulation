@@ -25,12 +25,7 @@ public class FinderService {
             return Optional.empty();
         }
 
-        List<Coordinates> path = BFSPathfinder.findPathToNearest(
-                worldMap,
-                currentPos.get(),
-                targetType.toString(),
-                creature.getType().toString()
-        );
+        List<Coordinates> path = BFSPathfinder.findPath(worldMap, currentPos.get(), targetType);
 
         if (!path.isEmpty() && path.size() > 1) {
             return Optional.of(path.get(1));
@@ -46,7 +41,7 @@ public class FinderService {
 
         for (int i = 0; i < DirectionService.DIRECTION_COUNT; i++) {
             Coordinates cell = DirectionService.calculateNewPosition(position, i);
-            if (worldMap.isValidCoordinate(cell) && worldMap.isCellEmpty(cell)) {
+            if (worldMap.isValidCoordinate(cell) && worldMap.isCellEmpty(cell.getX(),cell.getY())) {
                 return cell;      
             }
         }
@@ -59,7 +54,7 @@ public class FinderService {
                     if (dx == 0 && dy == 0) continue;
 
                     Coordinates cell = new Coordinates(start.getX() + dx, start.getY() + dy);
-                    if (worldMap.isValidCoordinate(cell) && worldMap.isCellEmpty(cell)) {
+                    if (worldMap.isValidCoordinate(cell) && worldMap.isCellEmpty(cell.getX(), cell.getY())) {
                         return cell;
                     }
                 }

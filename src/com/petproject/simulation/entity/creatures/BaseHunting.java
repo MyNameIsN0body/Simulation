@@ -39,7 +39,7 @@ public abstract class BaseHunting implements Hunting {
 
         if (target.isEmpty()) {
             // Просто двигаемся в пустую клетку
-            MoveService.moveCreature(creature, targetStep, worldMap);
+            worldMap.moveEntity(currentPos.get(), targetStep, creature);
         } else if (canEatTarget(target.orElse(null))) {
             // Съедаем цель
             onEatTarget(creature, targetStep, worldMap);

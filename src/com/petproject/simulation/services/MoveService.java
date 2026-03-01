@@ -29,12 +29,13 @@ public class MoveService {
             Coordinates entityCoordinate = entityCoordinateOpt.get();
             Coordinates newPosition = DirectionService.calculateNewPosition(entityCoordinate, direct);
             if (tryMove(entity, newPosition, worldMap)) {
-                moveCreature(entity, newPosition, worldMap);
+//                moveCreature(entity, newPosition, worldMap);
+                worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
             }
         }
     }
     public static void moveCreature(Entity entity, Coordinates newPlace, WorldMap worldMap) {
-        if (CreatureIsDead(entity,worldMap)) {
+        if (creatureIsDead(entity,worldMap)) {
             worldMap.removeEntity(entity);
             return;
         }
@@ -64,21 +65,13 @@ public class MoveService {
         };
     }
 
-    private static boolean checkEntityCoordinate(Creature creature, WorldMap worldMap) {
-        Optional<Coordinates> currentPos = worldMap.getEntityCoordinate(creature);
-        return currentPos.isPresent();
-    }
-    private static boolean checkEntityCoordinate(Entity entity, WorldMap worldMap) {
-        Optional<Coordinates> currentPos = worldMap.getEntityCoordinate(entity);
-        return currentPos.isPresent();
-    }
     public static void soulHarvester(Creature creature) {
         int countEnergy = creature.getEnergy();
         if (countEnergy > 0) {
             creature.setEnergy(countEnergy - 1);
         }
     }
-    private static boolean CreatureIsDead(Entity entity, WorldMap worldMap) {
+    private static boolean creatureIsDead(Entity entity, WorldMap worldMap) {
         if (entity instanceof Creature creature) {
             if (creature.getEnergy() <= 0) {
                 return true;

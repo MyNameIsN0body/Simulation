@@ -2,6 +2,7 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.entity.Coordinates;
 import com.petproject.simulation.entity.Entity;
+import com.petproject.simulation.entity.EntityType;
 import com.petproject.simulation.services.FinderService;
 import com.petproject.simulation.world.WorldMap;
 import com.petproject.simulation.world.pathfinding.BFSPathfinder;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public abstract class BaseReproduction implements Reproduction {
     protected abstract int getCooldown();
     protected abstract int getMinEnergy();
-    protected abstract String getTargetType();
+    protected abstract EntityType getTargetType();
     protected abstract Creature createBabyCreature();
     protected abstract void postReproductionActions(Creature creature, Creature partner);
 
@@ -51,25 +52,19 @@ public abstract class BaseReproduction implements Reproduction {
     }
 
 
-    protected Optional<Creature> findPartner(Creature seeker, WorldMap worldMap, String targetType) {
+    protected Optional<Creature> findPartner(Creature seeker, WorldMap worldMap, EntityType targetType) {
         Optional<Coordinates> start = worldMap.getEntityCoordinate(seeker);
         if (start.isEmpty()) {
             return Optional.empty();
         }
-        List<Coordinates> path = BFSPathfinder.findPathToNearest(
-                worldMap,
-                start.get(),
-                targetType,
-                seeker.getType().toString()
-        );
+        List<Coordinates> path = BFSPathfinder.findPath(worldMap, start.get(), targetType);
 
-        if (!path.isEmpty() && path.size() > 1) {
-            Coordinates partnerCoordinate = path.get(1);
-            Entity entity = worldMap.getEntity(partnerCoordinate.getX(), partnerCoordinate.getY());
+        if (path.size() == 1) {
+            Coordinates partnerCoordinate = path.get(0);
+            Optional<Entity> entityOpt = worldMap.getEntity(partnerCoordinate);
 
-            if (entity instanceof Creature &&
-                    entity.getType().toString().equals(targetType)) {
-                return Optional.of((Creature) entity);
+            if (entityOpt.isPresent() && entityOpt.get() instanceof Creature) {
+                return Optional.of((Creature) entityOpt.get());
             }
         }
 

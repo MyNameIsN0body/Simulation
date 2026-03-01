@@ -31,22 +31,17 @@ public abstract class BaseMove implements Move{
             return;
         }
 
-        Entity target = worldMap.getEntity(nextStep.getX(), nextStep.getY());
+        Optional<Entity> target = worldMap.getEntity(nextStep);
 
-        if (target == null) {
-            performMove(creature, currentPos.get(), nextStep, worldMap);
+        if (target.isEmpty()) {
+            worldMap.moveEntity(currentPos.get(), nextStep, creature);
             return;
         }
-         if (canEatTarget(target)) {
+         if (canEatTarget(target.get())) {
             onReachTarget(creature, nextStep, worldMap);
         } else {
             onNoTargetFound(creature, worldMap);
         }
-    }
-
-    protected void performMove(Creature creature, Coordinates from, Coordinates to, WorldMap worldMap) {
-        worldMap.removeEntity(from);
-        worldMap.setEntity(to, creature);
     }
 
 }

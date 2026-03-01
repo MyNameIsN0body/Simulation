@@ -13,6 +13,7 @@ public class MoveAction implements Actions {
     public void execute(WorldMap worldMap) {
         List<Entity> allEntities = worldMap.getAllEntities();
         for (Entity entity : allEntities) {
+
             switch (entity.getType()) {
                 case HERBIVORE -> {
                     Herbivore herbivore = (Herbivore) entity;

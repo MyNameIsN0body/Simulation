@@ -1,6 +1,5 @@
 package com.petproject.simulation.world;
 
-
 import com.petproject.simulation.entity.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.world.customException.NoEmptyCellsException;
@@ -12,7 +11,7 @@ public class WorldMap {
     private final int worldWidth;
     private final Random random;
 
-    HashMap<Coordinates, Entity> entityMap = new HashMap<>();
+    private final Map<Coordinates, Entity> entityMap = new HashMap<>();
 
     public WorldMap(int worldLength, int worldWidth) {
         this.worldLength = worldLength;
@@ -27,6 +26,7 @@ public class WorldMap {
     public void setEntity(Coordinates coordinates, Entity entity) {
         entityMap.put(coordinates, entity);
     }
+
     public Optional<Entity> getEntity(Coordinates coordinates) {
         return Optional.ofNullable(entityMap.get(coordinates));
     }
@@ -41,14 +41,6 @@ public class WorldMap {
 
     public boolean isCellEmpty(int x, int y) {
         return !entityMap.containsKey(new Coordinates(x, y));
-    }
-
-    public boolean isCellEmpty(Coordinates coordinates) {
-        return !entityMap.containsKey(coordinates);
-    }
-
-    public Entity getEntity(int x, int y) {
-        return entityMap.get(new Coordinates(x, y));
     }
 
     public Optional<Coordinates> getEntityCoordinate(Entity entity) {
@@ -72,8 +64,8 @@ public class WorldMap {
     }
 
     private Coordinates findAnyEmptyCoordinate() {
-        for (int y = 0; y < worldLength; y++) {
-            for (int x = 0; x < worldWidth; x++) {
+        for (int y = 0; y < worldWidth; y++) {
+            for (int x = 0; x < worldLength; x++) {
                 if (isCellEmpty(x, y)) {
                     return new Coordinates(x, y);
                 }
@@ -82,9 +74,6 @@ public class WorldMap {
         throw new NoEmptyCellsException("Карта полностью заполнена");
     }
 
-    public boolean isValidCoordinate(int x, int y) {
-        return x >= 0 && x < worldLength && y >= 0 && y < worldWidth;
-    }
     public boolean isValidCoordinate(Coordinates coordinates) {
         return coordinates.getX() >= 0 && coordinates.getX() < worldLength && coordinates.getY() >= 0 && coordinates.getY() < worldWidth;
     }
@@ -103,5 +92,18 @@ public class WorldMap {
         if (keyRemove != null) {
             entityMap.remove(keyRemove);
         }
+    }
+    public boolean moveEntity(Coordinates from, Coordinates to, Entity entity) {
+        Optional <Entity> entityAtSource = getEntity(from);
+        if (entityAtSource.isEmpty() || entityAtSource.get() != entity) {
+            return false;
+        }
+        if (getEntity(to).isPresent() && !from.equals(to)) {
+            return false;
+        }
+
+        removeEntity(from);
+        setEntity(to, entity);
+        return true;
     }
 }
