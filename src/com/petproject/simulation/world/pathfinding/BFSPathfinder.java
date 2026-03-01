@@ -11,8 +11,6 @@ import java.util.*;
 public class BFSPathfinder {
     private BFSPathfinder() {}
     public static List<Coordinates> findPath(WorldMap worldMap, Coordinates start, EntityType targetType) {
-//        int maxRows = worldMap.getWorldLength();
-//        int maxCols = worldMap.getWorldWidth();
 
         Queue<PathNode> queue = new LinkedList<>();
         Set<Coordinates> visited = new HashSet<>();
