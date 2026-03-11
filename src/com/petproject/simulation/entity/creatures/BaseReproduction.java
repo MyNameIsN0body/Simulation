@@ -59,7 +59,7 @@ public abstract class BaseReproduction implements Reproduction {
         }
         List<Coordinates> path = BFSPathfinder.findPath(worldMap, start.get(), targetType);
 
-        if (path.size() == 1) {
+        if (!path.isEmpty() && path.size() == 1) {
             Coordinates partnerCoordinate = path.get(0);
             Optional<Entity> entityOpt = worldMap.getEntity(partnerCoordinate);
 

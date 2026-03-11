@@ -13,10 +13,7 @@ public class MoveService {
     }
 
     public static boolean tryMove(Entity entity, Coordinates target, WorldMap worldMap) {
-        if (!canMove(entity, target, worldMap)) {
-            return false;
-        }
-        return true;
+        return canMove(entity, target, worldMap);
     }
 
     public static void moveRandomly(Entity entity, WorldMap worldMap) {
@@ -29,8 +26,8 @@ public class MoveService {
             Coordinates entityCoordinate = entityCoordinateOpt.get();
             Coordinates newPosition = DirectionService.calculateNewPosition(entityCoordinate, direct);
             if (tryMove(entity, newPosition, worldMap)) {
-//                moveCreature(entity, newPosition, worldMap);
                 worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
+                break;
             }
         }
     }
@@ -66,10 +63,7 @@ public class MoveService {
     }
 
     public static void soulHarvester(Creature creature) {
-        int countEnergy = creature.getEnergy();
-        if (countEnergy > 0) {
-            creature.setEnergy(countEnergy - 1);
-        }
+        creature.setEnergy(creature.getEnergy() - 1);
     }
     private static boolean creatureIsDead(Entity entity, WorldMap worldMap) {
         if (entity instanceof Creature creature) {

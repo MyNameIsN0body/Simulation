@@ -1,5 +1,7 @@
 package com.petproject.simulation.simulation;
 
+import com.petproject.simulation.entity.Entity;
+import com.petproject.simulation.entity.creatures.Creature;
 import com.petproject.simulation.render.MapConsoleRenderer;
 import com.petproject.simulation.simulation.actions.*;
 import com.petproject.simulation.world.WorldMap;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Simulation {
+
     private static volatile boolean running = true;
     private static volatile boolean paused = false;
     private static final Object lock = new Object();
@@ -21,32 +24,34 @@ public class Simulation {
     private final List<Actions> initActions = new ArrayList<>();
     private final List<Actions> turnActions = new ArrayList<>();
 
+
     public Simulation(int length, int width) {
+
         this.worldMap = new WorldMap(length, width);
-        // Создаем команды инициализации
+
         initActions.add(new InitAction(80, 20, 18, 20, 3));
-        // Создаем команды для каждого хода
+
         turnActions.add(new MoveAction());
         turnActions.add(new EatAction());
         turnActions.add(new GrassGrowthAction());
         turnActions.add(new ReproduceAction());
-
-    }
-
-    public int getCurrentTurn() {
-        return currentTurn;
     }
 
     public void initialize() {
         initActions.getLast().execute(worldMap);
     }
 
+
     public void nextTurn() {
         for (Actions step : turnActions) {
             step.execute(worldMap);
-//            System.out.println("\n" + step.toString() + "\n" );
             currentTurn++;
             gameStats();
+            if (shouldStopSimulation()) {
+                running = false;
+                return;
+            }
+
             try {
                 Thread.sleep(700);
             } catch (InterruptedException e) {
@@ -55,12 +60,45 @@ public class Simulation {
         }
     }
 
+    private boolean shouldStopSimulation() {
+        int totalCells = worldMap.getWorldLength() * worldMap.getWorldWidth();
+        int occupiedCells = worldMap.getAllEntities().size();
+        boolean noEmptyCells = occupiedCells >= totalCells;
+        boolean noCreatures = true;
+
+        for (Entity entity : worldMap.getAllEntities()) {
+            if (entity instanceof Creature) {
+                noCreatures = false;
+                break;
+            }
+        }
+
+        if (noCreatures) {
+            System.out.println("""
+                              \u001B[36mВсе существа умерли.\u001B[0m
+                              \u001B[33mСимуляция завершена\u001B[0m
+            """);
+            return true;
+        }
+
+        if (noEmptyCells) {
+            System.out.println("""
+                              \u001B[36mНа карте не осталось пустых клеток.\u001B[0m
+                                     \u001B[33mСимуляция завершена\u001B[0m
+            """);
+            return true;
+        }
+
+        return false;
+    }
+
 
     private void stepByStepSimulation(Scanner scanner) {
         GameMessenger.showStepByStepModeMenu();
         while (running) {
             System.out.print("\nВведите команду: ");
             String command = scanner.nextLine().toLowerCase().trim();
+
             switch (command) {
                 case "step", "s":
                     step();
@@ -78,7 +116,9 @@ public class Simulation {
                     running = false;
                     break;
                 default:
-                    System.out.println("\u001B[31mНеизвестная команда.\u001B[0m \nИспользуйте: \u001B[32mstep, s, reproduce, r, +grass, ag, menu, m, exit, e\u001B[0m");
+                    System.out.println(
+                            "\u001B[31mНеизвестная команда.\u001B[0m \nИспользуйте: \u001B[32mstep, s, reproduce, r, +grass, ag, menu, m, exit, e\u001B[0m"
+                    );
             }
         }
         scanner.close();
@@ -87,21 +127,28 @@ public class Simulation {
     }
 
     public void startGame() {
+
         GameMessenger.displayIntro();
         GameMessenger.displaySelectMode();
+
         initialize();
         Scanner scanner = new Scanner(System.in);
         String mode = scanner.nextLine().toLowerCase().trim();
+
         if (mode.equals("1")) {
             stepByStepSimulation(scanner);
         } else if (mode.equals("2")) {
+            paused = true;
+            GameMessenger.showAutoModeMenu();
             Thread loopThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     runSimulation();
                 }
             });
+
             loopThread.start();
+
             startSimulation(scanner);
         }
     }
@@ -143,13 +190,19 @@ public class Simulation {
     private void clearConsole() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                new ProcessBuilder("cmd", "/c", "cls")
+                        .inheritIO()
+                        .start()
+                        .waitFor();
+
             } else {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
             }
         } catch (Exception e) {
-            for (int i = 0; i < 50; i++) System.out.println();
+            for (int i = 0; i < 50; i++) {
+                System.out.println();
+            }
         }
     }
 
@@ -160,7 +213,7 @@ public class Simulation {
     }
 
     private void step() {
-        for (Actions actions: turnActions) {
+        for (Actions actions : turnActions) {
             if (actions instanceof MoveAction) {
                 actions.execute(worldMap);
             }
@@ -170,7 +223,7 @@ public class Simulation {
     }
 
     private void tryReproduce() {
-        for (Actions actions: turnActions) {
+        for (Actions actions : turnActions) {
             if (actions instanceof ReproduceAction) {
                 actions.execute(worldMap);
             }
@@ -203,21 +256,17 @@ public class Simulation {
     }
 
     public void runSimulation() {
-            pauseSimulation();
-            GameMessenger.showAutoModeMenu();
         while (running) {
-            // Проверяем паузу с синхронизацией
             synchronized (lock) {
                 while (paused && running) {
                     try {
-                        lock.wait();  // ждём, пока не вызовут notify()
+                        lock.wait();
                     } catch (InterruptedException e) {
                         break;
                     }
                 }
             }
 
-            // Если не остановлено — выполняем итерацию
             if (running) {
                 nextTurn();
                 try {
@@ -227,6 +276,5 @@ public class Simulation {
                 }
             }
         }
-        System.out.println("Цикл остановлен.");
     }
 }

@@ -27,8 +27,11 @@ public class FinderService {
 
         List<Coordinates> path = BFSPathfinder.findPath(worldMap, currentPos.get(), targetType);
 
-        if (!path.isEmpty() && path.size() > 1) {
-            return Optional.of(path.get(1));
+//        if (!path.isEmpty() && path.size() > 1) {
+//            return Optional.of(path.get(1));
+//        }
+        if (!path.isEmpty()) {
+            return Optional.of(path.get(0));
         }
 
         return Optional.empty();
