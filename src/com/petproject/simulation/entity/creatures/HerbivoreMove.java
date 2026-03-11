@@ -25,10 +25,8 @@ public class HerbivoreMove extends BaseMove{
 
     @Override
     protected void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap) {
-// Травоядное съедает траву
         worldMap.removeEntity(targetCoordinate);
         worldMap.moveEntity(worldMap.getEntityCoordinate(creature).orElse(null),targetCoordinate, creature);
-        // Восстанавливаем сытость
         creature.setEnergy(creature.getEnergy() + ENERGY_FROM_GRASS);
     }
 
@@ -44,10 +42,8 @@ public class HerbivoreMove extends BaseMove{
             return false;
         }
 
-        // Ищем ближайшего хищника
         List<Coordinates> predatorPath = BFSPathfinder.findPath(worldMap, currentPos.get(), EntityType.PREDATOR);
 
-        // Если хищник близко (в пределах 9 клеток), убегаем
         if (!predatorPath.isEmpty() && predatorPath.size() <= 10) {
             Coordinates predatorDirection = predatorPath.get(0); // ??????????????
             Coordinates runDirection = calculateOppositeDirection(currentPos.get(), predatorDirection);

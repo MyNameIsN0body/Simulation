@@ -29,8 +29,5 @@ public class HerbivoreHunting extends BaseHunting {
         worldMap.removeEntity(targetCoordinate);
         MoveService.moveCreature(creature, targetCoordinate, worldMap);
     }
-    protected void die(Coordinates targetCoordinate, WorldMap worldMap) {
-        worldMap.removeEntity(targetCoordinate);
-   }
 
 }

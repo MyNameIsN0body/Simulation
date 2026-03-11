@@ -39,9 +39,4 @@ public class Herbivore extends Creature {
         reproduction.updateCooldown(this);
         MoveService.soulHarvester(this);
     }
-    private void die(WorldMap worldMap) {
-        if (this.getEnergy() <= 0) {
-            worldMap.getEntityCoordinate(this).isPresent();
-        }
-    }
 }

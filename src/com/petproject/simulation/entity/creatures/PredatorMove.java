@@ -26,7 +26,6 @@ public class PredatorMove extends BaseMove{
         worldMap.removeEntity(targetCoordinate);
         worldMap.moveEntity(worldMap.getEntityCoordinate(creature).orElse(null), targetCoordinate, creature);
 
-        // Восстанавливаем энергии
         creature.setEnergy(creature.getEnergy() + ENERGY_FROM_HERBIVORE);
     }
 

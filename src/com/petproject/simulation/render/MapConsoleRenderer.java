@@ -8,7 +8,6 @@ public class MapConsoleRenderer {
     private static final int SPRITE_WIDTH = 2;
     private static final int INDENT_OUT = 3;
     private static final int INDENT_IN = 1;
-    final static String RED = "\u001B[31m";
 
     public void renderWorld(WorldMap worldMap) {
         int countSprite = worldMap.getWorldWidth();
@@ -25,7 +24,6 @@ public class MapConsoleRenderer {
             System.out.println("\u001B[36m" + " ".repeat(INDENT_IN) + "║\u001B[0m");
         }
         printBorderLine('╚', '╝', countSprite);
-//        System.out.println("\n");
     }
 
     private void printBorderLine(char leftChar, char rightChar, int countSprite) {

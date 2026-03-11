@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public abstract class BaseHunting implements Hunting {
 
-    // Абстрактные методы для реализации в подклассах
     protected abstract EntityType getTargetType();
     protected abstract int getEnergyGain();
     protected abstract boolean canEatTarget(Entity target);

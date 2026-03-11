@@ -32,7 +32,4 @@ public class DirectionService {
         return directions;
     }
 
-    public static boolean isValidDirection(int direction) {
-        return direction >= 0 && direction < DIRECTION_COUNT;
-    }
 }
