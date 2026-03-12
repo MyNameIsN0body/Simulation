@@ -179,7 +179,7 @@ public class Simulation {
                     step();
                     break;
                 default:
-                    System.out.println("Неизвестная команда. Используйте: pause, continue, exit, e");
+                    System.out.println("Неизвестная команда. Используйте: pause, p, run, r, continue, c, step, s, menu, m, exit, e");
             }
         }
         scanner.close();
@@ -224,7 +224,6 @@ public class Simulation {
     private void pauseSimulation() {
         paused = true;
         System.out.println("Бесконечный цикл симуляции приостановлен.");
-        System.out.println("Ход номер: " + currentTurn);
     }
 
     private void continueSimulation() {
@@ -232,7 +231,7 @@ public class Simulation {
         synchronized (lock) {
             lock.notify();
         }
-        System.out.println("Бесконечный цикл симуляции возобновлен.");
+        System.out.println("Бесконечный цикл симуляции запущен.");
     }
 
     public void runSimulation() {

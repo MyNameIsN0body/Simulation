@@ -27,9 +27,6 @@ public class FinderService {
 
         List<Coordinates> path = BFSPathfinder.findPath(worldMap, currentPos.get(), targetType);
 
-//        if (!path.isEmpty() && path.size() > 1) {
-//            return Optional.of(path.get(1));
-//        }
         if (!path.isEmpty()) {
             return Optional.of(path.get(0));
         }
@@ -50,19 +47,5 @@ public class FinderService {
         }
         return null;
     }
-    public static Coordinates findNearestEmptyCell(WorldMap worldMap, Coordinates start, int maxRadius) {
-        for (int radius = 1; radius <= maxRadius; radius++) {
-            for (int dx = -radius; dx <= radius; dx++) {
-                for (int dy = -radius; dy <= radius; dy++) {
-                    if (dx == 0 && dy == 0) continue;
 
-                    Coordinates cell = new Coordinates(start.getX() + dx, start.getY() + dy);
-                    if (worldMap.isValidCoordinate(cell) && worldMap.isCellEmpty(cell.getX(), cell.getY())) {
-                        return cell;
-                    }
-                }
-            }
-        }
-        return null;
-    }
 }
