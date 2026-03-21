@@ -4,11 +4,17 @@ import com.petproject.simulation.entity.Coordinates;
 import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.world.WorldMap;
 
+import java.util.Optional;
+
 public class GrassGrowthAction implements Actions {
 
     @Override
     public void execute(WorldMap worldMap) {
-        Coordinates randomEmptyCoordinates = worldMap.getRandomEmptyCoordinates();
+        Optional<Coordinates> optionalCoordinates = worldMap.getRandomEmptyCoordinates();
+        if (optionalCoordinates.isEmpty()) {
+            return;
+        }
+        Coordinates randomEmptyCoordinates = optionalCoordinates.get();
         worldMap.setEntity(randomEmptyCoordinates, new Grass());
     }
 }

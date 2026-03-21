@@ -2,7 +2,6 @@ package com.petproject.simulation.world;
 
 import com.petproject.simulation.entity.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.world.customException.NoEmptyCellsException;
 
 import java.util.*;
 
@@ -52,26 +51,27 @@ public class WorldMap {
         return Optional.empty();
     }
 
-    public Coordinates getRandomEmptyCoordinates() {
+    public Optional<Coordinates> getRandomEmptyCoordinates() {
         for (int i = 0; i < 100; i++) {
             int x = random.nextInt(worldLength);
             int y = random.nextInt(worldWidth);
             if (isCellEmpty(x, y)) {
-                return new Coordinates(x, y);
+                return Optional.of(new Coordinates(x, y));
             }
         }
         return findAnyEmptyCoordinate();
     }
 
-    private Coordinates findAnyEmptyCoordinate() {
+    private Optional<Coordinates> findAnyEmptyCoordinate() {
         for (int y = 0; y < worldWidth; y++) {
             for (int x = 0; x < worldLength; x++) {
                 if (isCellEmpty(x, y)) {
-                    return new Coordinates(x, y);
+                    return Optional.of(new Coordinates(x, y));
                 }
             }
         }
-        throw new NoEmptyCellsException("Карта полностью заполнена");
+
+        return Optional.empty();
     }
 
     public boolean isValidCoordinate(Coordinates coordinates) {

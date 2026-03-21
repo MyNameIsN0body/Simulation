@@ -10,6 +10,8 @@ import com.petproject.simulation.entity.resources.Rock;
 import com.petproject.simulation.entity.resources.Tree;
 import com.petproject.simulation.world.WorldMap;
 
+import java.util.Optional;
+
 public class InitAction implements Actions {
     private final int[] counts = new int[EntityType.values().length - 1];  //без empty
     private final EntityFactory[] factories = new EntityFactory[EntityType.values().length - 1];  //без empty
@@ -39,13 +41,20 @@ public class InitAction implements Actions {
             EntityFactory entityFactory = factories[i];
             if (count > 0 && entityFactory != null) {
                 for (int j = 0; j < count; j++) {
-                    Coordinates coordinates = worldMap.getRandomEmptyCoordinates();
-                    if (coordinates != null) {
-                        Entity entity = entityFactory.create();
-                        worldMap.setEntity(coordinates, entity);
-                    } else {
+                    Optional<Coordinates> optionalCoordinates = worldMap.getRandomEmptyCoordinates();
+                    if (optionalCoordinates.isEmpty()) {
                         break;
                     }
+                    Coordinates coordinates = optionalCoordinates.get();
+                    Entity entity = entityFactory.create();
+                    worldMap.setEntity(coordinates, entity);
+                    //Coordinates coordinates = worldMap.getRandomEmptyCoordinates();
+//                    if (coordinates != null) {
+//                        Entity entity = entityFactory.create();
+//                        worldMap.setEntity(coordinates, entity);
+//                    } else {
+//                        break;
+//                    }
                 }
             }
         }
