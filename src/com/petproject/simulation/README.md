@@ -1,4 +1,5 @@
 # Simulation Project
+<img width="1280" height="853" alt="image" src="https://github.com/user-attachments/assets/411c5bfb-a9a5-4777-87a5-8ad05f191389" />
 
 Проект для симуляции...
 
