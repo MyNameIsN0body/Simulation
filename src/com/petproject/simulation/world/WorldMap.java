@@ -1,20 +1,19 @@
 package com.petproject.simulation.world;
 
-import com.petproject.simulation.entity.Coordinates;
 import com.petproject.simulation.entity.Entity;
 
 import java.util.*;
 
 public class WorldMap {
-    private final int worldLength;
-    private final int worldWidth;
+    private final int length;
+    private final int width;
     private final Random random;
 
     private final Map<Coordinates, Entity> entityMap = new HashMap<>();
 
     public WorldMap(int worldLength, int worldWidth) {
-        this.worldLength = worldLength;
-        this.worldWidth = worldWidth;
+        this.length = worldLength;
+        this.width = worldWidth;
         this.random = new Random();
     }
 
@@ -22,7 +21,7 @@ public class WorldMap {
         return new ArrayList<>(entityMap.values());
     }
 
-    public void setEntity(Coordinates coordinates, Entity entity) {
+    public void putEntity(Coordinates coordinates, Entity entity) {
         entityMap.put(coordinates, entity);
     }
 
@@ -30,16 +29,16 @@ public class WorldMap {
         return Optional.ofNullable(entityMap.get(coordinates));
     }
 
-    public int getWorldLength() {
-        return worldLength;
+    public int getLength() {
+        return length;
     }
 
-    public int getWorldWidth() {
-        return worldWidth;
+    public int getWidth() {
+        return width;
     }
 
-    public boolean isCellEmpty(int x, int y) {
-        return !entityMap.containsKey(new Coordinates(x, y));
+    public boolean isCellEmpty(Coordinates coordinates) {
+        return !entityMap.containsKey(coordinates);
     }
 
     public Optional<Coordinates> getEntityCoordinate(Entity entity) {
@@ -53,9 +52,9 @@ public class WorldMap {
 
     public Optional<Coordinates> getRandomEmptyCoordinates() {
         for (int i = 0; i < 100; i++) {
-            int x = random.nextInt(worldLength);
-            int y = random.nextInt(worldWidth);
-            if (isCellEmpty(x, y)) {
+            int x = random.nextInt(length);
+            int y = random.nextInt(width);
+            if (isCellEmpty(new Coordinates(x, y))) {
                 return Optional.of(new Coordinates(x, y));
             }
         }
@@ -63,9 +62,9 @@ public class WorldMap {
     }
 
     private Optional<Coordinates> findAnyEmptyCoordinate() {
-        for (int y = 0; y < worldWidth; y++) {
-            for (int x = 0; x < worldLength; x++) {
-                if (isCellEmpty(x, y)) {
+        for (int y = 0; y < width; y++) {
+            for (int x = 0; x < length; x++) {
+                if (isCellEmpty(new Coordinates(x, y))) {
                     return Optional.of(new Coordinates(x, y));
                 }
             }
@@ -75,7 +74,7 @@ public class WorldMap {
     }
 
     public boolean isValidCoordinate(Coordinates coordinates) {
-        return coordinates.getX() >= 0 && coordinates.getX() < worldLength && coordinates.getY() >= 0 && coordinates.getY() < worldWidth;
+        return coordinates.x() >= 0 && coordinates.x() < length && coordinates.y() >= 0 && coordinates.y() < width;
     }
 
     public void removeEntity(Coordinates coordinates) {
@@ -103,7 +102,7 @@ public class WorldMap {
         }
 
         removeEntity(from);
-        setEntity(to, entity);
+        putEntity(to, entity);
         return true;
     }
 }

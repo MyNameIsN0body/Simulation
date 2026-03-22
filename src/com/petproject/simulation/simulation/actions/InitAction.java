@@ -1,6 +1,6 @@
 package com.petproject.simulation.simulation.actions;
 
-import com.petproject.simulation.entity.Coordinates;
+import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntityType;
 import com.petproject.simulation.entity.creatures.Herbivore;
@@ -47,7 +47,7 @@ public class InitAction implements Actions {
                     }
                     Coordinates coordinates = optionalCoordinates.get();
                     Entity entity = entityFactory.create();
-                    worldMap.setEntity(coordinates, entity);
+                    worldMap.putEntity(coordinates, entity);
                     //Coordinates coordinates = worldMap.getRandomEmptyCoordinates();
 //                    if (coordinates != null) {
 //                        Entity entity = entityFactory.create();

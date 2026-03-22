@@ -1,6 +1,6 @@
 package com.petproject.simulation.services;
 
-import com.petproject.simulation.entity.Coordinates;
+import com.petproject.simulation.world.Coordinates;
 
 import java.util.Random;
 
@@ -13,8 +13,8 @@ public class DirectionService {
 
     public static Coordinates calculateNewPosition(Coordinates current, int direction) {
         return new Coordinates(
-                current.getX() + DX[direction],
-                current.getY() + DY[direction]
+                current.x() + DX[direction],
+                current.y() + DY[direction]
         );
     }
 

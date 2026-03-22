@@ -1,6 +1,6 @@
 package com.petproject.simulation.services;
 
-import com.petproject.simulation.entity.Coordinates;
+import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntityType;
 import com.petproject.simulation.entity.creatures.Creature;
@@ -43,7 +43,7 @@ public class MoveService {
         }
         Coordinates entityCoordinate = entityCoordinateOpt.get();
         worldMap.removeEntity(entityCoordinate);
-        worldMap.setEntity(newPlace, entity);
+        worldMap.putEntity(newPlace, entity);
     }
 
     private static boolean canMove(Entity entity, Coordinates target, WorldMap worldMap) {

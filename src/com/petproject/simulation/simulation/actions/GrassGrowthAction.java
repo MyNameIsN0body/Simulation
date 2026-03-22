@@ -1,6 +1,6 @@
 package com.petproject.simulation.simulation.actions;
 
-import com.petproject.simulation.entity.Coordinates;
+import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.world.WorldMap;
 
@@ -15,6 +15,6 @@ public class GrassGrowthAction implements Actions {
             return;
         }
         Coordinates randomEmptyCoordinates = optionalCoordinates.get();
-        worldMap.setEntity(randomEmptyCoordinates, new Grass());
+        worldMap.putEntity(randomEmptyCoordinates, new Grass());
     }
 }

@@ -1,6 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
-import com.petproject.simulation.entity.Coordinates;
+import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntityType;
 import com.petproject.simulation.services.FinderService;
@@ -36,7 +36,7 @@ public abstract class BaseReproduction implements Reproduction {
             babyPosition = FinderService.findEmptyCellNear(partner, worldMap);
         }
         if (babyPosition != null) {
-            worldMap.setEntity(babyPosition, createBabyCreature());
+            worldMap.putEntity(babyPosition, createBabyCreature());
             resetCooldowns(creature, partner);
             postReproductionActions(creature, partner);
         }

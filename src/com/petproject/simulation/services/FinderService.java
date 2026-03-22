@@ -1,6 +1,6 @@
 package com.petproject.simulation.services;
 
-import com.petproject.simulation.entity.Coordinates;
+import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntityType;
 import com.petproject.simulation.entity.creatures.Creature;
@@ -41,7 +41,7 @@ public class FinderService {
 
         for (int i = 0; i < DirectionService.DIRECTION_COUNT; i++) {
             Coordinates cell = DirectionService.calculateNewPosition(position, i);
-            if (worldMap.isValidCoordinate(cell) && worldMap.isCellEmpty(cell.getX(),cell.getY())) {
+            if (worldMap.isValidCoordinate(cell) && worldMap.isCellEmpty(cell)) {
                 return cell;      
             }
         }

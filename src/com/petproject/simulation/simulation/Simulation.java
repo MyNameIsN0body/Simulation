@@ -61,7 +61,7 @@ public class Simulation {
     }
 
     private boolean shouldStopSimulation() {
-        int totalCells = worldMap.getWorldLength() * worldMap.getWorldWidth();
+        int totalCells = worldMap.getLength() * worldMap.getWidth();
         int occupiedCells = worldMap.getAllEntities().size();
         boolean noEmptyCells = occupiedCells >= totalCells;
         boolean noCreatures = true;

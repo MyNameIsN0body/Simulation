@@ -1,6 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
-import com.petproject.simulation.entity.Coordinates;
+import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntityType;
 import com.petproject.simulation.services.MoveService;
@@ -49,7 +49,7 @@ public class HerbivoreMove extends BaseMove{
             Coordinates runDirection = calculateOppositeDirection(currentPos.get(), predatorDirection);
 
             if (worldMap.isValidCoordinate(runDirection) &&
-                    worldMap.isCellEmpty(runDirection.getX(), runDirection.getY())) {
+                    worldMap.isCellEmpty(runDirection)) {
                 worldMap.moveEntity(currentPos.get(),runDirection, creature);
                 return true;
             }
@@ -58,14 +58,14 @@ public class HerbivoreMove extends BaseMove{
         return false;
     }
     private Coordinates calculateOppositeDirection(Coordinates current, Coordinates predatorStep) {
-        int dx = current.getX() - predatorStep.getX();
-        int dy = current.getY() - predatorStep.getY();
+        int dx = current.x() - predatorStep.x();
+        int dy = current.y() - predatorStep.y();
 
         // Нормализуем направление
         if (Math.abs(dx) > Math.abs(dy)) {
-            return new Coordinates(current.getX() + Integer.signum(dx), current.getY());
+            return new Coordinates(current.x() + Integer.signum(dx), current.y());
         } else {
-            return new Coordinates(current.getX(), current.getY() + Integer.signum(dy));
+            return new Coordinates(current.x(), current.y() + Integer.signum(dy));
         }
     }
 
