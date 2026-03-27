@@ -2,7 +2,7 @@ package com.petproject.simulation.services;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.entity.creatures.Creature;
 import com.petproject.simulation.world.WorldMap;
 
@@ -56,8 +56,8 @@ public class MoveService {
             return true;
         }
         return switch (entity.getType()) {
-            case HERBIVORE -> occupant.get().getType() == EntityType.GRASS;
-            case PREDATOR -> occupant.get().getType() == EntityType.HERBIVORE;
+            case HERBIVORE -> occupant.get().getType() == EntitySprite.GRASS;
+            case PREDATOR -> occupant.get().getType() == EntitySprite.HERBIVORE;
             default -> false;
         };
     }

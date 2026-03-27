@@ -1,7 +1,7 @@
 package com.petproject.simulation.render;
 
 import com.petproject.simulation.world.Coordinates;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.world.WorldMap;
 
 public class MapConsoleRenderer {
@@ -16,7 +16,7 @@ public class MapConsoleRenderer {
             System.out.print(" ".repeat(INDENT_OUT) + "\u001B[36m║" + " ".repeat(INDENT_IN) + "\u001B[0m");
             for (int x = 0; x < countSprite; x++) {
                 if (worldMap.isCellEmpty(new Coordinates(x, y))) {
-                    System.out.print(EntityType.EMPTY.getSprite());
+                    System.out.print(EntitySprite.EMPTY.getSprite());
                 } else {
                     System.out.print(renderSprite(x, y, worldMap));
                 }

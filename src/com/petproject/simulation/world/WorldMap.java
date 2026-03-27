@@ -50,27 +50,19 @@ public class WorldMap {
         return Optional.empty();
     }
 
-    public Optional<Coordinates> getRandomEmptyCoordinates() {
-        for (int i = 0; i < 100; i++) {
+    public Optional<Coordinates>  getRandomEmptyCoordinates() {
+        int totalCells = length * width;
+        if (entityMap.size() >= totalCells) {
+            return Optional.empty();
+        }
+        while (true) {
             int x = random.nextInt(length);
             int y = random.nextInt(width);
-            if (isCellEmpty(new Coordinates(x, y))) {
-                return Optional.of(new Coordinates(x, y));
+            Coordinates currentCoordinate = new Coordinates(x,y);
+            if (isCellEmpty(currentCoordinate)) {
+                return Optional.of(currentCoordinate);
             }
         }
-        return findAnyEmptyCoordinate();
-    }
-
-    private Optional<Coordinates> findAnyEmptyCoordinate() {
-        for (int y = 0; y < width; y++) {
-            for (int x = 0; x < length; x++) {
-                if (isCellEmpty(new Coordinates(x, y))) {
-                    return Optional.of(new Coordinates(x, y));
-                }
-            }
-        }
-
-        return Optional.empty();
     }
 
     public boolean isValidCoordinate(Coordinates coordinates) {
@@ -78,6 +70,9 @@ public class WorldMap {
     }
 
     public void removeEntity(Coordinates coordinates) {
+        if (!isValidCoordinate(coordinates)) {
+            throw new IllegalArgumentException("Invalid coordinates");
+        }
         entityMap.remove(coordinates);
     }
     public void removeEntity(Entity entityRemove) {

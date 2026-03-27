@@ -2,7 +2,7 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.FinderService;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public abstract class BaseHunting implements Hunting {
 
-    protected abstract EntityType getTargetType();
+    protected abstract EntitySprite getTargetType();
     protected abstract int getEnergyGain();
     protected abstract boolean canEatTarget(Entity target);
     protected abstract void onEatTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);

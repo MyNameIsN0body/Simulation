@@ -1,13 +1,13 @@
 package com.petproject.simulation.entity;
 
 public abstract class Entity {
-    protected final EntityType type;
+    protected final EntitySprite type;
 
-    public EntityType getType() {
+    public EntitySprite getType() {
         return type;
     }
 
-    public Entity(EntityType type) {
+    public Entity(EntitySprite type) {
         this.type = type;
     }
 }

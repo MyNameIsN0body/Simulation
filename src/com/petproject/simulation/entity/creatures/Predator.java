@@ -1,6 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
@@ -11,7 +11,7 @@ public class Predator extends Creature {
     private final PredatorHunting predatorHunting;
 
     public Predator() {
-        super(EntityType.PREDATOR);
+        super(EntitySprite.PREDATOR);
         this.energy = 10;
         this.reproductionCooldown = 0;
         this.predatorMove = new PredatorMove();

@@ -2,7 +2,7 @@ package com.petproject.simulation.world.pathfinding;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.DirectionService;
 import com.petproject.simulation.world.WorldMap;
 
@@ -10,7 +10,7 @@ import java.util.*;
 
 public class BFSPathfinder {
     private BFSPathfinder() {}
-    public static List<Coordinates> findPath(WorldMap worldMap, Coordinates start, EntityType targetType) {
+    public static List<Coordinates> findPath(WorldMap worldMap, Coordinates start, EntitySprite targetType) {
 
         Queue<PathNode> queue = new LinkedList<>();
         Set<Coordinates> visited = new HashSet<>();
@@ -45,7 +45,7 @@ public class BFSPathfinder {
         return Collections.emptyList();
     }
 
-    private static boolean isPassable(WorldMap map, Coordinates coordinates, EntityType targetType) {
+    private static boolean isPassable(WorldMap map, Coordinates coordinates, EntitySprite targetType) {
         Optional<Entity> entity = map.getEntity(coordinates);
         return entity.isEmpty() || entity.get().getType() == targetType;
     }

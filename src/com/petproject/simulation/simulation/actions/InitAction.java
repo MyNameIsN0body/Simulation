@@ -2,7 +2,7 @@ package com.petproject.simulation.simulation.actions;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.entity.creatures.Herbivore;
 import com.petproject.simulation.entity.creatures.Predator;
 import com.petproject.simulation.entity.resources.Grass;
@@ -13,25 +13,25 @@ import com.petproject.simulation.world.WorldMap;
 import java.util.Optional;
 
 public class InitAction implements Actions {
-    private final int[] counts = new int[EntityType.values().length - 1];  //без empty
-    private final EntityFactory[] factories = new EntityFactory[EntityType.values().length - 1];  //без empty
+    private final int[] counts = new int[EntitySprite.values().length - 1];  //без empty
+    private final EntityFactory[] factories = new EntityFactory[EntitySprite.values().length - 1];  //без empty
 
     private interface EntityFactory {
         Entity create();
     }
 
     public InitAction(int grassCount, int rockCount, int treeCount, int herbivoreCount, int predatorCount) {
-        counts[EntityType.GRASS.ordinal()] = grassCount;
-        counts[EntityType.ROCK.ordinal()] = rockCount;
-        counts[EntityType.TREE.ordinal()] = treeCount;
-        counts[EntityType.HERBIVORE.ordinal()] = herbivoreCount;
-        counts[EntityType.PREDATOR.ordinal()] = predatorCount;
+        counts[EntitySprite.GRASS.ordinal()] = grassCount;
+        counts[EntitySprite.ROCK.ordinal()] = rockCount;
+        counts[EntitySprite.TREE.ordinal()] = treeCount;
+        counts[EntitySprite.HERBIVORE.ordinal()] = herbivoreCount;
+        counts[EntitySprite.PREDATOR.ordinal()] = predatorCount;
 
-        factories[EntityType.GRASS.ordinal()] = Grass::new;
-        factories[EntityType.ROCK.ordinal()] = Rock::new;
-        factories[EntityType.TREE.ordinal()] = Tree::new;
-        factories[EntityType.HERBIVORE.ordinal()] = Herbivore::new;
-        factories[EntityType.PREDATOR.ordinal()] = Predator::new;
+        factories[EntitySprite.GRASS.ordinal()] = Grass::new;
+        factories[EntitySprite.ROCK.ordinal()] = Rock::new;
+        factories[EntitySprite.TREE.ordinal()] = Tree::new;
+        factories[EntitySprite.HERBIVORE.ordinal()] = Herbivore::new;
+        factories[EntitySprite.PREDATOR.ordinal()] = Predator::new;
     }
 
     @Override

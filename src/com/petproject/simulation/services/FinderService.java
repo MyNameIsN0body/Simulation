@@ -2,7 +2,7 @@ package com.petproject.simulation.services;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.entity.creatures.Creature;
 import com.petproject.simulation.world.WorldMap;
 import com.petproject.simulation.world.pathfinding.BFSPathfinder;
@@ -19,7 +19,7 @@ public class FinderService {
 
 
     public static Optional<Coordinates> findTarget(Creature creature, WorldMap worldMap,
-                                                   EntityType targetType) {
+                                                   EntitySprite targetType) {
         Optional<Coordinates> currentPos = worldMap.getEntityCoordinate(creature);
         if (currentPos.isEmpty()) {
             return Optional.empty();

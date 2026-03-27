@@ -2,14 +2,14 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.FinderService;
 import com.petproject.simulation.world.WorldMap;
 
 import java.util.Optional;
 
 public abstract class BaseMove implements Move{
-    protected abstract EntityType getTargetType();
+    protected abstract EntitySprite getTargetType();
     protected abstract boolean canEatTarget(Entity target);
     protected abstract void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);
     protected abstract void onNoTargetFound(Creature creature, WorldMap worldMap);

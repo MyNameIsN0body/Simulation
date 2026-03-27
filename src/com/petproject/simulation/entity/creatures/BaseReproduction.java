@@ -2,7 +2,7 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntityType;
+import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.FinderService;
 import com.petproject.simulation.world.WorldMap;
 import com.petproject.simulation.world.pathfinding.BFSPathfinder;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public abstract class BaseReproduction implements Reproduction {
     protected abstract int getCooldown();
     protected abstract int getMinEnergy();
-    protected abstract EntityType getTargetType();
+    protected abstract EntitySprite getTargetType();
     protected abstract Creature createBabyCreature();
     protected abstract void postReproductionActions(Creature creature, Creature partner);
 
@@ -52,7 +52,7 @@ public abstract class BaseReproduction implements Reproduction {
     }
 
 
-    protected Optional<Creature> findPartner(Creature seeker, WorldMap worldMap, EntityType targetType) {
+    protected Optional<Creature> findPartner(Creature seeker, WorldMap worldMap, EntitySprite targetType) {
         Optional<Coordinates> start = worldMap.getEntityCoordinate(seeker);
         if (start.isEmpty()) {
             return Optional.empty();
