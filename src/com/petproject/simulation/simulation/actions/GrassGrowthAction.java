@@ -6,7 +6,7 @@ import com.petproject.simulation.world.WorldMap;
 
 import java.util.Optional;
 
-public class GrassGrowthAction implements Actions {
+public class GrassGrowthAction implements Action {
 
     @Override
     public void execute(WorldMap worldMap) {

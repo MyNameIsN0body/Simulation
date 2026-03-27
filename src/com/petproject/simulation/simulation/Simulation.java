@@ -21,8 +21,8 @@ public class Simulation {
 
     MapConsoleRenderer mapConsoleRenderer = new MapConsoleRenderer();
 
-    private final List<Actions> initActions = new ArrayList<>();
-    private final List<Actions> turnActions = new ArrayList<>();
+    private final List<Action> initActions = new ArrayList<>();
+    private final List<Action> turnActions = new ArrayList<>();
 
 
     public Simulation(int length, int width) {
@@ -43,7 +43,7 @@ public class Simulation {
 
 
     public void nextTurn() {
-        for (Actions step : turnActions) {
+        for (Action step : turnActions) {
             step.execute(worldMap);
             currentTurn++;
             gameStats();
@@ -193,9 +193,9 @@ public class Simulation {
     }
 
     private void step() {
-        for (Actions actions : turnActions) {
-            if (actions instanceof MoveAction) {
-                actions.execute(worldMap);
+        for (Action action : turnActions) {
+            if (action instanceof MoveAction) {
+                action.execute(worldMap);
             }
         }
         currentTurn++;
@@ -203,9 +203,9 @@ public class Simulation {
     }
 
     private void tryReproduce() {
-        for (Actions actions : turnActions) {
-            if (actions instanceof ReproduceAction) {
-                actions.execute(worldMap);
+        for (Action action : turnActions) {
+            if (action instanceof ReproduceAction) {
+                action.execute(worldMap);
             }
         }
         currentTurn++;

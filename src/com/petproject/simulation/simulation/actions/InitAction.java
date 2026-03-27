@@ -12,7 +12,7 @@ import com.petproject.simulation.world.WorldMap;
 
 import java.util.Optional;
 
-public class InitAction implements Actions {
+public class InitAction implements Action {
     private final int[] counts = new int[EntitySprite.values().length - 1];  //без empty
     private final EntityFactory[] factories = new EntityFactory[EntitySprite.values().length - 1];  //без empty
 

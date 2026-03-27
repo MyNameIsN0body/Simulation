@@ -7,7 +7,7 @@ import com.petproject.simulation.world.WorldMap;
 
 import java.util.List;
 
-public class ReproduceAction implements Actions {
+public class ReproduceAction implements Action {
 
     @Override
     public void execute(WorldMap worldMap) {

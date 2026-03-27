@@ -7,7 +7,7 @@ import com.petproject.simulation.world.WorldMap;
 
 import java.util.List;
 
-public class MoveAction implements Actions {
+public class MoveAction implements Action {
 
     @Override
     public void execute(WorldMap worldMap) {
