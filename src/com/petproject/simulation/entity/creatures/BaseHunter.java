@@ -17,17 +17,17 @@ public abstract class BaseHunter implements Hunter {
 
 
     @Override
-    public void hunt(Creature creature, WorldMap worldMap) {
-        Optional<Coordinates> targetStep = FinderService.findTarget(creature, worldMap, getTargetClass());
+    public void hunt(Creature target, WorldMap worldMap) {
+        Optional<Coordinates> targetStep = FinderService.findTarget(target, worldMap, getTargetClass());
 
         if (targetStep.isPresent()) {
-            moveToTarget(creature, targetStep.get(), worldMap);
+            moveToTarget(target, targetStep.get(), worldMap);
         } else {
-            MoveService.moveRandomly(creature, worldMap);
+            MoveService.moveRandomly(target, worldMap);
         }
     }
 
-    protected void moveToTarget(Creature creature, Coordinates targetStep, WorldMap worldMap) {
+    private void moveToTarget(Creature creature, Coordinates targetStep, WorldMap worldMap) {
         Optional<Coordinates> currentPos = worldMap.getEntityCoordinate(creature);
         if (currentPos.isEmpty()) {
             return;
@@ -36,14 +36,12 @@ public abstract class BaseHunter implements Hunter {
         Optional<Entity> target = worldMap.getEntity(targetStep);
 
         if (target.isEmpty()) {
-            // Просто двигаемся в пустую клетку
             worldMap.moveEntity(currentPos.get(), targetStep, creature);
         } else if (canEatTarget(target.orElse(null))) {
             // Съедаем цель
             onEatTarget(creature, targetStep, worldMap);
             creature.setEnergy(creature.getEnergy() + getEnergyGain());
         } else {
-            // Цель не съедобна
             MoveService.moveRandomly(creature, worldMap);
         }
     }

@@ -1,9 +1,8 @@
 package com.petproject.simulation.world.pathfinding;
 
+import com.petproject.simulation.services.Direction;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
-import com.petproject.simulation.services.DirectionService;
 import com.petproject.simulation.world.WorldMap;
 
 import java.util.*;
@@ -29,10 +28,8 @@ public class BFSPathfinder {
                 }
             }
 
-            for (int i = 0; i < DirectionService.DIRECTION_COUNT; i++) {
-                int newX = current.coordinates.x() + DirectionService.DX[i];
-                int newY = current.coordinates.y() + DirectionService.DY[i];
-                Coordinates nextCoordinates = new Coordinates(newX, newY);
+            for (Direction direction : Direction.values()) {
+                Coordinates nextCoordinates = direction.move(current.coordinates) ;
 
                 if (worldMap.isValidCoordinate(nextCoordinates) && !visited.contains(nextCoordinates)) {
                     if (isPassable(worldMap, nextCoordinates, targetClass)) {

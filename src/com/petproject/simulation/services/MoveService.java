@@ -17,14 +17,13 @@ public class MoveService {
     }
 
     public static void moveRandomly(Entity entity, WorldMap worldMap) {
-        int[] direction = DirectionService.getShuffledDirections();
-        for (int direct : direction) {
-            Optional<Coordinates> entityCoordinateOpt = worldMap.getEntityCoordinate(entity);
-            if (entityCoordinateOpt.isEmpty()) {
-                return;
-            }
-            Coordinates entityCoordinate = entityCoordinateOpt.get();
-            Coordinates newPosition = DirectionService.calculateNewPosition(entityCoordinate, direct);
+        Optional<Coordinates> entityCoordinateOpt = worldMap.getEntityCoordinate(entity);
+        if (entityCoordinateOpt.isEmpty()) {
+            return;
+        }
+        Coordinates entityCoordinate = entityCoordinateOpt.get();
+        for (Direction direction: Direction.shuffled()) {
+            Coordinates newPosition = direction.move(entityCoordinate);
             if (tryMove(entity, newPosition, worldMap)) {
                 worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
                 break;
