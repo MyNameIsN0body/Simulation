@@ -10,12 +10,12 @@ import java.util.*;
 
 public class BFSPathfinder {
     private BFSPathfinder() {}
-    public static List<Coordinates> findPath(WorldMap worldMap, Coordinates start, EntitySprite targetType) {
+    public static List<Coordinates> findPath(WorldMap worldMap, Coordinates start, Class<?extends Entity> targetClass) {
 
         Queue<PathNode> queue = new LinkedList<>();
         Set<Coordinates> visited = new HashSet<>();
 
-        queue.add(new PathNode(start, null));
+        queue.add(new PathNode(start));
         visited.add(start);
 
         while (!queue.isEmpty()) {
@@ -24,7 +24,7 @@ public class BFSPathfinder {
 
             if (!current.coordinates.equals(start)) {
                 Optional<Entity> entity = worldMap.getEntity(current.coordinates);
-                if (entity.isPresent() && entity.get().getType() == targetType) {
+                if (entity.isPresent() && targetClass.isInstance(entity.get())) {
                     return reconstructPath(current);
                 }
             }
@@ -35,7 +35,7 @@ public class BFSPathfinder {
                 Coordinates nextCoordinates = new Coordinates(newX, newY);
 
                 if (worldMap.isValidCoordinate(nextCoordinates) && !visited.contains(nextCoordinates)) {
-                    if (isPassable(worldMap, nextCoordinates, targetType)) {
+                    if (isPassable(worldMap, nextCoordinates, targetClass)) {
                         visited.add(nextCoordinates);
                         queue.add(new PathNode(nextCoordinates, current));
                     }
@@ -45,9 +45,9 @@ public class BFSPathfinder {
         return Collections.emptyList();
     }
 
-    private static boolean isPassable(WorldMap map, Coordinates coordinates, EntitySprite targetType) {
+    private static boolean isPassable(WorldMap map, Coordinates coordinates, Class<? extends Entity> targetClass) {
         Optional<Entity> entity = map.getEntity(coordinates);
-        return entity.isEmpty() || entity.get().getType() == targetType;
+        return entity.isEmpty() || targetClass.isInstance(entity.get());
     }
 
     private static List<Coordinates> reconstructPath(PathNode endNode) {
@@ -68,5 +68,10 @@ public class BFSPathfinder {
             this.coordinates = coordinates;
             this.parent = parent;
         }
+        PathNode(Coordinates coordinates) {
+            this.coordinates = coordinates;
+            this.parent = null;
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
-import com.petproject.simulation.entity.EntitySprite;
+import com.petproject.simulation.entity.Entity;
 
 public class PredatorReproduction extends BaseReproduction {
     private static final int COOLDOWN = 4;
@@ -17,8 +17,8 @@ public class PredatorReproduction extends BaseReproduction {
     }
 
     @Override
-    protected EntitySprite getTargetType() {
-        return EntitySprite.PREDATOR;
+    protected Class<? extends Entity> getTargetType() {
+        return Predator.class;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
@@ -10,8 +9,8 @@ public class PredatorHunting extends BaseHunting {
     private static final int ENERGY_GAIN = 5;
 
     @Override
-    protected EntitySprite getTargetType() {
-        return EntitySprite.HERBIVORE;
+    protected Class<? extends Entity> getTargetClass() {
+        return Herbivore.class;
     }
 
     @Override
@@ -22,7 +21,7 @@ public class PredatorHunting extends BaseHunting {
     @Override
     protected boolean canEatTarget(Entity target) {
         return target instanceof Creature &&
-                target.getType() == EntitySprite.HERBIVORE;
+                getTargetClass().isInstance(target);
     }
 
     @Override

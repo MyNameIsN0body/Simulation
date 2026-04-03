@@ -2,7 +2,6 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.FinderService;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 public abstract class BaseHunting implements Hunting {
 
-    protected abstract EntitySprite getTargetType();
+    protected abstract Class<? extends Entity> getTargetClass();
     protected abstract int getEnergyGain();
     protected abstract boolean canEatTarget(Entity target);
     protected abstract void onEatTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);
@@ -19,7 +18,7 @@ public abstract class BaseHunting implements Hunting {
 
     @Override
     public void hunt(Creature creature, WorldMap worldMap) {
-        Optional<Coordinates> targetStep = FinderService.findTarget(creature, worldMap, getTargetType());
+        Optional<Coordinates> targetStep = FinderService.findTarget(creature, worldMap, getTargetClass());
 
         if (targetStep.isPresent()) {
             moveToTarget(creature, targetStep.get(), worldMap);

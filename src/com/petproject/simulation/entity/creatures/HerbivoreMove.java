@@ -1,5 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
+import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntitySprite;
@@ -14,13 +15,13 @@ public class HerbivoreMove extends BaseMove{
     private static final int ENERGY_FROM_GRASS = 3;
 
     @Override
-    protected EntitySprite getTargetType() {
-        return EntitySprite.GRASS;
+    protected  Class<? extends Entity> getTargetClass() {
+        return Grass.class;
     }
 
     @Override
     protected boolean canEatTarget(Entity target) {
-        return target != null && target.getType() == EntitySprite.GRASS;
+        return getTargetClass().isInstance(target);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class HerbivoreMove extends BaseMove{
             return false;
         }
 
-        List<Coordinates> predatorPath = BFSPathfinder.findPath(worldMap, currentPos.get(), EntitySprite.PREDATOR);
+        List<Coordinates> predatorPath = BFSPathfinder.findPath(worldMap, currentPos.get(), Predator.class);
 
         if (!predatorPath.isEmpty() && predatorPath.size() <= 10) {
             Coordinates predatorDirection = predatorPath.get(0); // ??????????????

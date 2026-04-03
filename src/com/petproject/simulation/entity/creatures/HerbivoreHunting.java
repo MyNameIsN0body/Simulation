@@ -1,5 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
+import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntitySprite;
@@ -10,8 +11,8 @@ public class HerbivoreHunting extends BaseHunting {
     private static final int ENERGY_GAIN = 10;
 
     @Override
-    protected EntitySprite getTargetType() {
-        return EntitySprite.GRASS;
+    protected Class<? extends Entity> getTargetClass() {
+        return Grass.class;
     }
 
     @Override

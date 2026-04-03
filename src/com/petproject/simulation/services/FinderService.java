@@ -19,7 +19,7 @@ public class FinderService {
 
 
     public static Optional<Coordinates> findTarget(Creature creature, WorldMap worldMap,
-                                                   EntitySprite targetType) {
+                                                   Class<?extends Entity> targetType) {
         Optional<Coordinates> currentPos = worldMap.getEntityCoordinate(creature);
         if (currentPos.isEmpty()) {
             return Optional.empty();

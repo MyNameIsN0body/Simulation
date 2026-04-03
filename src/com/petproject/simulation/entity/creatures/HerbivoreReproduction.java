@@ -1,7 +1,7 @@
 package com.petproject.simulation.entity.creatures;
 
 
-import com.petproject.simulation.entity.EntitySprite;
+import com.petproject.simulation.entity.Entity;
 
 public class HerbivoreReproduction extends  BaseReproduction {
     private static final int COOLDOWN = 3;
@@ -18,8 +18,8 @@ public class HerbivoreReproduction extends  BaseReproduction {
     }
 
     @Override
-    protected EntitySprite getTargetType() {
-        return EntitySprite.HERBIVORE;
+    protected Class<? extends Entity> getTargetType() {
+        return Herbivore.class;
     }
 
     @Override
