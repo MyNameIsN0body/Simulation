@@ -9,7 +9,7 @@ import com.petproject.simulation.world.pathfinding.BFSPathfinder;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseReproduction implements Reproduction {
+public abstract class BaseReproducible implements Reproducible {
     protected abstract int getCooldown();
     protected abstract int getMinEnergy();
     protected abstract Class<? extends Entity> getTargetType();

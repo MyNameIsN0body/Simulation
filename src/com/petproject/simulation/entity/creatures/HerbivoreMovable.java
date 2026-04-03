@@ -3,7 +3,6 @@ package com.petproject.simulation.entity.creatures;
 import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 import com.petproject.simulation.world.pathfinding.BFSPathfinder;
@@ -11,7 +10,7 @@ import com.petproject.simulation.world.pathfinding.BFSPathfinder;
 import java.util.List;
 import java.util.Optional;
 
-public class HerbivoreMove extends BaseMove{
+public class HerbivoreMovable extends BaseMovable {
     private static final int ENERGY_FROM_GRASS = 3;
 
     @Override

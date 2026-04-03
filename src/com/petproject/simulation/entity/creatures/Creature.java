@@ -9,6 +9,10 @@ public abstract class Creature extends Entity {
     protected int reproductionCooldown;
     protected int maxReproductionCooldown;
 
+    public Creature(EntitySprite type) {
+        super(type);
+    }
+
     public int getReproductionCooldown() {
         return reproductionCooldown;
     }
@@ -30,10 +34,6 @@ public abstract class Creature extends Entity {
 
     public void setEnergy(int energy) {
         this.energy = energy;
-    }
-
-    public Creature(EntitySprite type) {
-        super(type);
     }
 
     public abstract void makeMove(WorldMap worldMap);

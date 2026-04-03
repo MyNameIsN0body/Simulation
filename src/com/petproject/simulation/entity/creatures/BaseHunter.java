@@ -8,7 +8,7 @@ import com.petproject.simulation.world.WorldMap;
 
 import java.util.Optional;
 
-public abstract class BaseHunting implements Hunting {
+public abstract class BaseHunter implements Hunter {
 
     protected abstract Class<? extends Entity> getTargetClass();
     protected abstract int getEnergyGain();

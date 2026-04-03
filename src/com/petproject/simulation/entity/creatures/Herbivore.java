@@ -5,30 +5,30 @@ import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
 public class Herbivore extends Creature {
-    private final Reproduction reproduction;
-    private final HerbivoreMove herbivoreMove;
-    private final HerbivoreHunting herbivoreHunting;
+    private final Reproducible reproducible;
+    private final HerbivoreMovable herbivoreMove;
+    private final HerbivoreHunter herbivoreHunting;
 
     public Herbivore() {
         super(EntitySprite.HERBIVORE);
         this.energy = 9;
         this.reproductionCooldown = 0;
-        this.herbivoreMove = new HerbivoreMove();
-        this.reproduction = new HerbivoreReproduction();
-        this.herbivoreHunting = new HerbivoreHunting();
+        this.herbivoreMove = new HerbivoreMovable();
+        this.reproducible = new HerbivoreReproducible();
+        this.herbivoreHunting = new HerbivoreHunter();
     }
 
     @Override
     public void makeMove(WorldMap worldMap) {
         herbivoreMove.move(this, worldMap);
-        reproduction.updateCooldown(this);
+        reproducible.updateCooldown(this);
         MoveService.soulHarvester(this);
     }
 
     @Override
     public void makeReproduce(WorldMap worldMap) {
-        if (reproduction.canReproduce(this,worldMap)) {
-            reproduction.reproduce(this, worldMap);
+        if (reproducible.canReproduce(this,worldMap)) {
+            reproducible.reproduce(this, worldMap);
             MoveService.soulHarvester(this);
         }
     }
@@ -36,7 +36,7 @@ public class Herbivore extends Creature {
     @Override
     public void makeEat(WorldMap worldMap) {
         herbivoreHunting.hunt(this, worldMap);
-        reproduction.updateCooldown(this);
+        reproducible.updateCooldown(this);
         MoveService.soulHarvester(this);
     }
 }

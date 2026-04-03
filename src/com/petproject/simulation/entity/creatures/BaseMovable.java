@@ -7,10 +7,13 @@ import com.petproject.simulation.world.WorldMap;
 
 import java.util.Optional;
 
-public abstract class BaseMove implements Move{
+public abstract class BaseMovable implements Movable {
     protected abstract Class<? extends Entity> getTargetClass();
+
     protected abstract boolean canEatTarget(Entity target);
+
     protected abstract void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);
+
     protected abstract void onNoTargetFound(Creature creature, WorldMap worldMap);
 
     @Override
@@ -24,7 +27,8 @@ public abstract class BaseMove implements Move{
             onNoTargetFound(creature, worldMap);
         }
     }
-    protected void moveToStep(Creature creature, Coordinates nextStep, WorldMap worldMap) {
+
+    private void moveToStep(Creature creature, Coordinates nextStep, WorldMap worldMap) {
         Optional<Coordinates> currentPos = worldMap.getEntityCoordinate(creature);
         if (currentPos.isEmpty()) {
             return;
@@ -36,7 +40,7 @@ public abstract class BaseMove implements Move{
             worldMap.moveEntity(currentPos.get(), nextStep, creature);
             return;
         }
-         if (canEatTarget(target.get())) {
+        if (canEatTarget(target.get())) {
             onReachTarget(creature, nextStep, worldMap);
         } else {
             onNoTargetFound(creature, worldMap);

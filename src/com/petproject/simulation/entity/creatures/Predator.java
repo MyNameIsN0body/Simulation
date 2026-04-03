@@ -6,17 +6,17 @@ import com.petproject.simulation.world.WorldMap;
 
 
 public class Predator extends Creature {
-    private final Reproduction reproduction;
-    private final PredatorMove predatorMove;
-    private final PredatorHunting predatorHunting;
+    private final Reproducible reproducible;
+    private final PredatorMovable predatorMove;
+    private final PredatorHunter predatorHunting;
 
     public Predator() {
         super(EntitySprite.PREDATOR);
         this.energy = 10;
         this.reproductionCooldown = 0;
-        this.predatorMove = new PredatorMove();
-        this.reproduction = new PredatorReproduction();
-        this.predatorHunting = new PredatorHunting();
+        this.predatorMove = new PredatorMovable();
+        this.reproducible = new PredatorReproducible();
+        this.predatorHunting = new PredatorHunter();
     }
 
     @Override
@@ -30,8 +30,8 @@ public class Predator extends Creature {
 
     @Override
     public void makeReproduce(WorldMap worldMap) {
-        if (reproduction.canReproduce(this,worldMap)) {
-            reproduction.reproduce(this, worldMap);
+        if (reproducible.canReproduce(this,worldMap)) {
+            reproducible.reproduce(this, worldMap);
             MoveService.soulHarvester(this);
             if (this.getEnergy() <= 0) {
                 worldMap.removeEntity(this);

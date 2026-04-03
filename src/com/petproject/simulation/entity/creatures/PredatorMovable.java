@@ -6,7 +6,7 @@ import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
 
-public class PredatorMove extends BaseMove{
+public class PredatorMovable extends BaseMovable {
     private static final int ENERGY_FROM_HERBIVORE = 5;
     private static final int ENERGY_FOR_STEP = 2;
 

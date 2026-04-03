@@ -2,7 +2,7 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.entity.Entity;
 
-public class PredatorReproduction extends BaseReproduction {
+public class PredatorReproducible extends BaseReproducible {
     private static final int COOLDOWN = 4;
     private static final int MIN_ENERGY = 6;
 

@@ -5,7 +5,7 @@ import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
-public class PredatorHunting extends BaseHunting {
+public class PredatorHunter extends BaseHunter {
     private static final int ENERGY_GAIN = 5;
 
     @Override
