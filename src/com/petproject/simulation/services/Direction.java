@@ -1,13 +1,14 @@
 package com.petproject.simulation.services;
 
 import com.petproject.simulation.world.Coordinates;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public enum Direction {
-    UP(0,1),
-    DOWN(0,-1),
+    UP(0, 1),
+    DOWN(0, -1),
     LEFT(-1, 0),
     RIGHT(1, 0),
     UP_LEFT(-1, 1),
@@ -22,6 +23,7 @@ public enum Direction {
         this.dx = dx;
         this.dy = dy;
     }
+
     public Coordinates move(Coordinates current) {
         return new Coordinates(
                 current.x() + dx,
