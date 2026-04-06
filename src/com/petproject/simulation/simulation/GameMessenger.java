@@ -2,6 +2,9 @@ package com.petproject.simulation.simulation;
 
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntitySprite;
+import com.petproject.simulation.entity.creatures.Herbivore;
+import com.petproject.simulation.entity.creatures.Predator;
+import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.world.WorldMap;
 
 public final class GameMessenger {
@@ -75,12 +78,11 @@ public final class GameMessenger {
         int herbivoreCount = 0;
         int grassCount = 0;
         for(Entity entity: worldMap.getAllEntities()) {
-            EntitySprite entitySprite = entity.getType();
-            if (entitySprite == EntitySprite.PREDATOR) {
+            if (entity instanceof Predator) {
                 predatorCount++;
-            } else if (entitySprite == EntitySprite.HERBIVORE) {
+            } else if (entity instanceof Herbivore) {
                 herbivoreCount++;
-            } else if (entitySprite == EntitySprite.GRASS) {
+            } else if (entity instanceof Grass) {
                 grassCount++;
             }
         }

@@ -9,9 +9,6 @@ import java.util.Optional;
 
 public abstract class BaseMovable implements Movable {
     protected abstract Class<? extends Entity> getTargetClass();
-
-    protected abstract boolean canEatTarget(Entity target);
-
     protected abstract void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);
 
     protected abstract void onNoTargetFound(Creature creature, WorldMap worldMap);
@@ -40,7 +37,7 @@ public abstract class BaseMovable implements Movable {
             worldMap.moveEntity(currentPos.get(), nextStep, creature);
             return;
         }
-        if (canEatTarget(target.get())) {
+        if (target.get().canBeEatenBy(creature)) {
             onReachTarget(creature, nextStep, worldMap);
         } else {
             onNoTargetFound(creature, worldMap);

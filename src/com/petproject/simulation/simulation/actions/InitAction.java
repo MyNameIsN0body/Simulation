@@ -2,7 +2,6 @@ package com.petproject.simulation.simulation.actions;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.entity.creatures.Herbivore;
 import com.petproject.simulation.entity.creatures.Predator;
 import com.petproject.simulation.entity.resources.Grass;
@@ -16,7 +15,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class InitAction implements Action {
-    private final int[] counts = new int[EntitySprite.values().length - 1];  //без empty
     private final Map<Supplier<Entity>, Integer> entityCounts = new LinkedHashMap<>();
 
     public InitAction(int grassCount, int rockCount, int treeCount, int herbivoreCount, int predatorCount) {

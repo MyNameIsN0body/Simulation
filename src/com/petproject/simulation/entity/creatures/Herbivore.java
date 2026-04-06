@@ -1,5 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
+import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
@@ -8,6 +9,16 @@ public class Herbivore extends Creature {
     private final Reproducible reproducible;
     private final HerbivoreMovable herbivoreMove;
     private final HerbivoreHunter herbivoreHunting;
+
+    @Override
+    public boolean canBeEatenBy(Creature creature) {
+        return creature instanceof Predator;
+    }
+
+    @Override
+    public boolean canBeEnteredBy(Entity entity) {
+        return entity instanceof Predator;
+    }
 
     public Herbivore() {
         super(EntitySprite.HERBIVORE);

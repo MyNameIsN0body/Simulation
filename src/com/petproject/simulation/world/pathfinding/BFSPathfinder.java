@@ -9,7 +9,7 @@ import java.util.*;
 
 public class BFSPathfinder {
     private BFSPathfinder() {}
-    public static List<Coordinates> findPath(WorldMap worldMap, Coordinates start, Class<?extends Entity> targetClass) {
+    public static List<Coordinates> findPath(WorldMap worldMap, Coordinates start, Class<? extends Entity> targetClass) {
 
         Queue<PathNode> queue = new LinkedList<>();
         Set<Coordinates> visited = new HashSet<>();

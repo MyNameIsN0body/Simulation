@@ -16,11 +16,6 @@ public class PredatorMovable extends BaseMovable {
     }
 
     @Override
-    protected boolean canEatTarget(Entity target) {
-        return target != null && getTargetClass().isInstance(target);
-    }
-
-    @Override
     protected void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap) {
         worldMap.removeEntity(targetCoordinate);
         worldMap.moveEntity(worldMap.getEntityCoordinate(creature).orElse(null), targetCoordinate, creature);
