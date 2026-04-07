@@ -13,15 +13,4 @@ public abstract class Entity {
     }
 
     public void makeMove(WorldMap worldMap) {}
-
-    protected final EntitySprite type;
-
-    public Entity(EntitySprite type) {
-        this.type = type;
-    }
-
-    public EntitySprite getType() {
-        return type;
-    }
-
 }

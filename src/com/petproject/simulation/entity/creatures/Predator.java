@@ -11,7 +11,6 @@ public class Predator extends Creature {
     private final PredatorHunter predatorHunting;
 
     public Predator() {
-        super(EntitySprite.PREDATOR);
         this.energy = 10;
         this.reproductionCooldown = 0;
         this.predatorMove = new PredatorMovable();

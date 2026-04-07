@@ -15,10 +15,11 @@ public class MapConsoleRenderer {
         for (int y = 0; y < countSprite; y++) {
             System.out.print(" ".repeat(INDENT_OUT) + "\u001B[36m║" + " ".repeat(INDENT_IN) + "\u001B[0m");
             for (int x = 0; x < countSprite; x++) {
-                if (worldMap.isCellEmpty(new Coordinates(x, y))) {
+                Coordinates coordinates = new Coordinates(x, y);
+                if (worldMap.isCellEmpty(coordinates)) {
                     System.out.print(EntitySprite.EMPTY.getSprite());
                 } else {
-                    System.out.print(renderSprite(x, y, worldMap));
+                    System.out.print(renderSprite(coordinates, worldMap));
                 }
             }
             System.out.println("\u001B[36m" + " ".repeat(INDENT_IN) + "║\u001B[0m");
@@ -40,7 +41,7 @@ public class MapConsoleRenderer {
         System.out.println(rightChar + "\u001B[0m");
     }
 
-    private String renderSprite(int x, int y, WorldMap worldMap) {
-        return worldMap.getEntity(new Coordinates(x, y)).get().getType().getSprite();
+    private String renderSprite(Coordinates coordinates, WorldMap worldMap) {
+        return EntityRenderer.render(worldMap.getEntity(coordinates).orElseThrow());
     }
 }

@@ -1,7 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.world.WorldMap;
 
 public abstract class Creature extends Entity {
@@ -9,9 +8,9 @@ public abstract class Creature extends Entity {
     protected int reproductionCooldown;
     protected int maxReproductionCooldown;
 
-    public Creature(EntitySprite type) {
-        super(type);
+    public Creature() {
     }
+
 
     public int getReproductionCooldown() {
         return reproductionCooldown;

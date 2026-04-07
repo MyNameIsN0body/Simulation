@@ -1,7 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
@@ -21,7 +20,6 @@ public class Herbivore extends Creature {
     }
 
     public Herbivore() {
-        super(EntitySprite.HERBIVORE);
         this.energy = 9;
         this.reproductionCooldown = 0;
         this.herbivoreMove = new HerbivoreMovable();
