@@ -56,9 +56,6 @@ public class MoveService {
         return occupant.get().canBeEnteredBy(entity);
     }
 
-    public static void soulHarvester(Creature creature) {
-        creature.setEnergy(creature.getEnergy() - 1);
-    }
     private static boolean creatureIsDead(Entity entity, WorldMap worldMap) {
         if (entity instanceof Creature creature) {
             if (creature.getEnergy() <= 0) {

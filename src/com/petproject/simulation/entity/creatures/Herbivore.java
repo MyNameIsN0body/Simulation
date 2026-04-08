@@ -31,14 +31,14 @@ public class Herbivore extends Creature {
     public void makeMove(WorldMap worldMap) {
         herbivoreMove.move(this, worldMap);
         reproducible.updateCooldown(this);
-        MoveService.soulHarvester(this);
+        this.soulHarvester();
     }
 
     @Override
     public void makeReproduce(WorldMap worldMap) {
         if (reproducible.canReproduce(this,worldMap)) {
             reproducible.reproduce(this, worldMap);
-            MoveService.soulHarvester(this);
+            this.soulHarvester();
         }
     }
 
@@ -46,6 +46,6 @@ public class Herbivore extends Creature {
     public void makeEat(WorldMap worldMap) {
         herbivoreHunting.hunt(this, worldMap);
         reproducible.updateCooldown(this);
-        MoveService.soulHarvester(this);
+        this.soulHarvester();
     }
 }

@@ -41,5 +41,7 @@ public abstract class Creature extends Entity {
 
     public abstract void makeEat(WorldMap worldMap);
 
-
+    public void soulHarvester() {
+        this.setEnergy(energy - 1);
+    }
 }

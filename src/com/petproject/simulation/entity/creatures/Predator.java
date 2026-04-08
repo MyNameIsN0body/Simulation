@@ -21,7 +21,7 @@ public class Predator extends Creature {
     @Override
     public void makeMove(WorldMap worldMap) {
         predatorMove.move(this, worldMap);
-        MoveService.soulHarvester(this);
+        this.soulHarvester();
         if (this.getEnergy() <= 0) {
             worldMap.removeEntity(this);
         }
@@ -31,7 +31,7 @@ public class Predator extends Creature {
     public void makeReproduce(WorldMap worldMap) {
         if (reproducible.canReproduce(this,worldMap)) {
             reproducible.reproduce(this, worldMap);
-            MoveService.soulHarvester(this);
+            this.soulHarvester();
             if (this.getEnergy() <= 0) {
                 worldMap.removeEntity(this);
             }
@@ -41,8 +41,7 @@ public class Predator extends Creature {
     @Override
     public void makeEat(WorldMap worldMap) {
         predatorHunting.hunt(this,worldMap);
-        MoveService.soulHarvester(this);
-
+        this.soulHarvester();
     }
 
 }
