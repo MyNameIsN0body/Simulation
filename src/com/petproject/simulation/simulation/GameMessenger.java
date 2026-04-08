@@ -1,12 +1,5 @@
 package com.petproject.simulation.simulation;
 
-import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.entity.EntitySprite;
-import com.petproject.simulation.entity.creatures.Herbivore;
-import com.petproject.simulation.entity.creatures.Predator;
-import com.petproject.simulation.entity.resources.Grass;
-import com.petproject.simulation.world.WorldMap;
-
 public final class GameMessenger {
     private GameMessenger() {
     }
@@ -73,25 +66,13 @@ public final class GameMessenger {
         System.out.println(AUTO_MENU);
     }
 
-    public static void showStatus(WorldMap worldMap, int turn) {
-        int predatorCount = 0;
-        int herbivoreCount = 0;
-        int grassCount = 0;
-        for(Entity entity: worldMap.getAllEntities()) {
-            if (entity instanceof Predator) {
-                predatorCount++;
-            } else if (entity instanceof Herbivore) {
-                herbivoreCount++;
-            } else if (entity instanceof Grass) {
-                grassCount++;
-            }
-        }
+    public static void showStatus(GameStats stats) {
 
         System.out.printf("""
                           \u001B[33m Состояние игры:\u001B[0m
               ⏱️ Ход номер: \u001B[32m%-2d\u001B[0m     🌱 Травы:      \u001B[32m%-2d\u001B[0m
               🦖 Хищников:  \u001B[32m%-2d\u001B[0m     🦌 Травоядных: \u001B[32m%-2d\u001B[0m
-        """, turn, grassCount, predatorCount, herbivoreCount);
+        """, stats.getTurn(), stats.getGrass(), stats.getPredators(), stats.getHerbivore());
         System.out.println("\n".repeat(3));
     }
 

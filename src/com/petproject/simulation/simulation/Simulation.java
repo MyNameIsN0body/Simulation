@@ -2,6 +2,9 @@ package com.petproject.simulation.simulation;
 
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.creatures.Creature;
+import com.petproject.simulation.entity.creatures.Herbivore;
+import com.petproject.simulation.entity.creatures.Predator;
+import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.render.MapConsoleRenderer;
 import com.petproject.simulation.simulation.actions.*;
 import com.petproject.simulation.world.WorldMap;
@@ -189,7 +192,22 @@ public class Simulation {
 
     private void gameStats() {
         mapConsoleRenderer.renderWorld(worldMap);
-        GameMessenger.showStatus(worldMap, currentTurn);
+        GameMessenger.showStatus(calculateGameState(worldMap));
+    }
+    private GameStats calculateGameState(WorldMap worldMap) {
+        int predatorCount = 0;
+        int herbivoreCount = 0;
+        int grassCount = 0;
+        for(Entity entity: worldMap.getAllEntities()) {
+            if (entity instanceof Predator) {
+                predatorCount++;
+            } else if (entity instanceof Herbivore) {
+                herbivoreCount++;
+            } else if (entity instanceof Grass) {
+                grassCount++;
+            }
+        }
+        return new GameStats(currentTurn,predatorCount, herbivoreCount, grassCount);
     }
 
     private void step() {
