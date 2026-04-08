@@ -14,7 +14,7 @@ public abstract class BaseReproducible implements Reproducible {
     protected abstract int getMinEnergy();
     protected abstract Class<? extends Entity> getTargetType();
     protected abstract Creature createBabyCreature();
-    protected abstract void postReproductionActions(Creature creature, Creature partner);
+    protected abstract void applyReproductionCost(Creature creature, Creature partner);
 
     @Override
     public boolean canReproduce(Creature creature, WorldMap worldMap) {
@@ -37,7 +37,7 @@ public abstract class BaseReproducible implements Reproducible {
         if (babyPosition.isPresent()) {
             worldMap.putEntity(babyPosition.orElse(null), createBabyCreature());
             resetCooldowns(creature, partner);
-            postReproductionActions(creature, partner);
+            applyReproductionCost(creature, partner);
         }
     }
     protected void resetCooldowns(Creature creature, Creature partner) {

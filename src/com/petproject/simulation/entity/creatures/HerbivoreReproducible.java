@@ -28,7 +28,7 @@ public class HerbivoreReproducible extends BaseReproducible {
     }
 
     @Override
-    protected void postReproductionActions(Creature creature, Creature partner) {
+    protected void applyReproductionCost(Creature creature, Creature partner) {
         creature.setEnergy(creature.energy + 1);
         partner.setEnergy(partner.energy + 1);
     }
