@@ -2,7 +2,6 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
 
@@ -25,7 +24,7 @@ public class PredatorMovable extends BaseMovable {
 
     @Override
     protected void onNoTargetFound(Creature creature, WorldMap worldMap) {
-        MoveService.moveRandomly(creature,worldMap);
+        moveRandomly(creature, worldMap);
         creature.setEnergy(creature.getEnergy() - ENERGY_FOR_STEP);
     }
 }

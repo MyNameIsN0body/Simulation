@@ -3,7 +3,6 @@ package com.petproject.simulation.entity.creatures;
 import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 import com.petproject.simulation.world.pathfinding.BFSPathfinder;
 
@@ -28,7 +27,7 @@ public class HerbivoreMovable extends BaseMovable {
     @Override
     protected void onNoTargetFound(Creature creature, WorldMap worldMap) {
         if (!avoidPredators(creature, worldMap)) {
-            MoveService.moveRandomly(creature, worldMap);
+            moveRandomly(creature, worldMap);
         }
     }
     private boolean avoidPredators(Creature creature, WorldMap worldMap) {

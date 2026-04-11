@@ -1,9 +1,9 @@
 package com.petproject.simulation.entity.creatures;
 
+import com.petproject.simulation.services.Direction;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.services.FinderService;
-import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
 import java.util.Optional;
@@ -23,7 +23,7 @@ public abstract class BaseHunter implements Hunter {
         if (targetStep.isPresent()) {
             moveToTarget(target, targetStep.get(), worldMap);
         } else {
-            MoveService.moveRandomly(target, worldMap);
+            moveRandomly(target, worldMap);
         }
     }
 
@@ -42,7 +42,33 @@ public abstract class BaseHunter implements Hunter {
             onEatTarget(creature, targetStep, worldMap);
             creature.setEnergy(creature.getEnergy() + getEnergyGain());
         } else {
-            MoveService.moveRandomly(creature, worldMap);
+            moveRandomly(creature, worldMap);
         }
+    }
+
+    public static void moveRandomly(Entity entity, WorldMap worldMap) {
+        Optional<Coordinates> entityCoordinateOpt = worldMap.getEntityCoordinate(entity);
+        if (entityCoordinateOpt.isEmpty()) {
+            return;
+        }
+        Coordinates entityCoordinate = entityCoordinateOpt.get();
+        for (Direction direction: Direction.shuffled()) {
+            Coordinates newPosition = direction.move(entityCoordinate);
+            if (canMove(entity, newPosition, worldMap)) {
+                worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
+                break;
+            }
+        }
+    }
+    private static boolean canMove(Entity entity, Coordinates target, WorldMap worldMap) {
+        if (!worldMap.isValidCoordinate(target)) {
+            return false;
+        }
+
+        Optional<Entity> occupant = worldMap.getEntity(target);
+        if (occupant.isEmpty()) {
+            return true;
+        }
+        return occupant.get().canBeEnteredBy(entity);
     }
 }

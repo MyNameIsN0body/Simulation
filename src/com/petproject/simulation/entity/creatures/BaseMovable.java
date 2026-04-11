@@ -1,5 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
+import com.petproject.simulation.services.Direction;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.services.FinderService;
@@ -43,5 +44,29 @@ public abstract class BaseMovable implements Movable {
             onNoTargetFound(creature, worldMap);
         }
     }
+    public static void moveRandomly(Entity entity, WorldMap worldMap) {
+        Optional<Coordinates> entityCoordinateOpt = worldMap.getEntityCoordinate(entity);
+        if (entityCoordinateOpt.isEmpty()) {
+            return;
+        }
+        Coordinates entityCoordinate = entityCoordinateOpt.get();
+        for (Direction direction: Direction.shuffled()) {
+            Coordinates newPosition = direction.move(entityCoordinate);
+            if (canMove(entity, newPosition, worldMap)) {
+                worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
+                break;
+            }
+        }
+    }
+    private static boolean canMove(Entity entity, Coordinates target, WorldMap worldMap) {
+        if (!worldMap.isValidCoordinate(target)) {
+            return false;
+        }
 
+        Optional<Entity> occupant = worldMap.getEntity(target);
+        if (occupant.isEmpty()) {
+            return true;
+        }
+        return occupant.get().canBeEnteredBy(entity);
+    }
 }

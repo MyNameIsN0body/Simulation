@@ -11,10 +11,6 @@ public class MoveService {
     private MoveService() {
     }
 
-    public static boolean tryMove(Entity entity, Coordinates target, WorldMap worldMap) {
-        return canMove(entity, target, worldMap);
-    }
-
     public static void moveRandomly(Entity entity, WorldMap worldMap) {
         Optional<Coordinates> entityCoordinateOpt = worldMap.getEntityCoordinate(entity);
         if (entityCoordinateOpt.isEmpty()) {
@@ -23,7 +19,7 @@ public class MoveService {
         Coordinates entityCoordinate = entityCoordinateOpt.get();
         for (Direction direction: Direction.shuffled()) {
             Coordinates newPosition = direction.move(entityCoordinate);
-            if (tryMove(entity, newPosition, worldMap)) {
+            if (canMove(entity, newPosition, worldMap)) {
                 worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
                 break;
             }
