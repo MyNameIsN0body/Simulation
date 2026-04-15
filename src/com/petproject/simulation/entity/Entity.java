@@ -1,6 +1,7 @@
 package com.petproject.simulation.entity;
 
 import com.petproject.simulation.entity.creatures.Creature;
+import com.petproject.simulation.simulation.GameStats;
 import com.petproject.simulation.world.WorldMap;
 
 public abstract class Entity {
@@ -13,4 +14,8 @@ public abstract class Entity {
     }
 
     public void makeMove(WorldMap worldMap) {}
+
+    public GameStats updateStats(GameStats stats) {
+        return stats;
+    }
 }

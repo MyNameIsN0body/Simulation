@@ -1,7 +1,7 @@
 package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.services.MoveService;
+import com.petproject.simulation.simulation.GameStats;
 import com.petproject.simulation.world.WorldMap;
 
 public class Herbivore extends Creature {
@@ -31,14 +31,14 @@ public class Herbivore extends Creature {
     public void makeMove(WorldMap worldMap) {
         herbivoreMove.move(this, worldMap);
         reproducible.updateCooldown(this);
-        this.soulHarvester();
+        soulHarvester(worldMap);
     }
 
     @Override
     public void makeReproduce(WorldMap worldMap) {
-        if (reproducible.canReproduce(this,worldMap)) {
+        if (reproducible.canReproduce(this, worldMap)) {
             reproducible.reproduce(this, worldMap);
-            this.soulHarvester();
+            soulHarvester(worldMap);
         }
     }
 
@@ -46,6 +46,9 @@ public class Herbivore extends Creature {
     public void makeEat(WorldMap worldMap) {
         herbivoreHunting.hunt(this, worldMap);
         reproducible.updateCooldown(this);
-        this.soulHarvester();
+        soulHarvester(worldMap);
+    }
+    public GameStats updateStats(GameStats stats) {
+        return stats.incrementHerbivore();
     }
 }

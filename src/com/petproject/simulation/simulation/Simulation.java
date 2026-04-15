@@ -192,22 +192,14 @@ public class Simulation {
 
     private void gameStats() {
         mapConsoleRenderer.renderWorld(worldMap);
-        GameMessenger.showStatus(calculateGameState(worldMap));
+        GameMessenger.showStatus(calculateGameState());
     }
-    private GameStats calculateGameState(WorldMap worldMap) {
-        int predatorCount = 0;
-        int herbivoreCount = 0;
-        int grassCount = 0;
-        for(Entity entity: worldMap.getAllEntities()) {
-            if (entity instanceof Predator) {
-                predatorCount++;
-            } else if (entity instanceof Herbivore) {
-                herbivoreCount++;
-            } else if (entity instanceof Grass) {
-                grassCount++;
-            }
+    private GameStats calculateGameState() {
+        GameStats stats = new GameStats(currentTurn, 0, 0, 0);
+        for (Entity entity : worldMap.getAllEntities()) {
+            stats = entity.updateStats(stats);
         }
-        return new GameStats(currentTurn,predatorCount, herbivoreCount, grassCount);
+        return stats;
     }
 
     private void step() {

@@ -1,7 +1,6 @@
 package com.petproject.simulation.entity.creatures;
 
-import com.petproject.simulation.entity.EntitySprite;
-import com.petproject.simulation.services.MoveService;
+import com.petproject.simulation.simulation.GameStats;
 import com.petproject.simulation.world.WorldMap;
 
 
@@ -21,27 +20,26 @@ public class Predator extends Creature {
     @Override
     public void makeMove(WorldMap worldMap) {
         predatorMove.move(this, worldMap);
-        this.soulHarvester();
-        if (this.getEnergy() <= 0) {
-            worldMap.removeEntity(this);
-        }
+        soulHarvester(worldMap);
     }
 
     @Override
     public void makeReproduce(WorldMap worldMap) {
         if (reproducible.canReproduce(this,worldMap)) {
             reproducible.reproduce(this, worldMap);
-            this.soulHarvester();
-            if (this.getEnergy() <= 0) {
-                worldMap.removeEntity(this);
-            }
+            soulHarvester(worldMap);
         }
     }
 
     @Override
     public void makeEat(WorldMap worldMap) {
         predatorHunting.hunt(this,worldMap);
-        this.soulHarvester();
+        soulHarvester(worldMap);
+    }
+
+    @Override
+    public GameStats updateStats(GameStats stats) {
+        return stats.incrementPredators();
     }
 
 }

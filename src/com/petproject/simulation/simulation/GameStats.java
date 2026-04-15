@@ -6,6 +6,12 @@ public class GameStats {
     private final int herbivore;
     private final int grass;
 
+    public GameStats(int turn, int predators, int herbivore, int grass) {
+        this.turn = turn;
+        this.predators = predators;
+        this.herbivore = herbivore;
+        this.grass = grass;
+    }
     public int getPredators() {
         return predators;
     }
@@ -21,10 +27,17 @@ public class GameStats {
         return turn;
     }
 
-    public GameStats(int turn, int predators, int herbivore, int grass) {
-        this.turn = turn;
-        this.predators = predators;
-        this.herbivore = herbivore;
-        this.grass = grass;
+
+    public GameStats incrementPredators() {
+        return new GameStats(turn, predators+ 1, herbivore, grass);
     }
+
+    public GameStats incrementHerbivore() {
+        return new GameStats(turn, predators, herbivore +1, grass);
+    }
+
+    public GameStats incrementGrass() {
+        return new GameStats(turn, predators, herbivore, grass + 1);
+    }
+
 }

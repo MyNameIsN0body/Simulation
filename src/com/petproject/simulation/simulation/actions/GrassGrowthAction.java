@@ -15,6 +15,6 @@ public class GrassGrowthAction implements Action {
             return;
         }
         Coordinates randomEmptyCoordinates = optionalCoordinates.get();
-        worldMap.putEntity(randomEmptyCoordinates, new Grass());
+        worldMap.putEntity(randomEmptyCoordinates, new  Grass());
     }
 }

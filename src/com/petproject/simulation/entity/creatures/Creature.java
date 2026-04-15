@@ -41,7 +41,13 @@ public abstract class Creature extends Entity {
 
     public abstract void makeEat(WorldMap worldMap);
 
-    public void soulHarvester() {
+    public void soulHarvester(WorldMap worldMap) {
         this.setEnergy(energy - 1);
+        checkDeath(worldMap);
+    }
+    protected void checkDeath(WorldMap worldMap) {
+        if (this.energy <= 0) {
+            worldMap.removeEntity(this);
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
-import com.petproject.simulation.services.MoveService;
 import com.petproject.simulation.world.WorldMap;
 
 public class PredatorHunter extends BaseHunter {
@@ -27,6 +26,6 @@ public class PredatorHunter extends BaseHunter {
     @Override
     protected void onEatTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap) {
         worldMap.removeEntity(targetCoordinate);
-        MoveService.moveCreature(creature, targetCoordinate, worldMap);
+        moveTo(creature, targetCoordinate, worldMap);
     }
 }

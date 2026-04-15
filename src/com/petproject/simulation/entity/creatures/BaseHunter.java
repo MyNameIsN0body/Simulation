@@ -46,6 +46,18 @@ public abstract class BaseHunter implements Hunter {
         }
     }
 
+    protected void moveTo(Entity entity, Coordinates to, WorldMap worldMap) {
+        Optional<Coordinates> fromOpt = worldMap.getEntityCoordinate(entity);
+        if (fromOpt.isEmpty()) {
+            return;
+        }
+
+        Coordinates from = fromOpt.get();
+
+        worldMap.removeEntity(from);
+        worldMap.putEntity(to, entity);
+    }
+
     public static void moveRandomly(Entity entity, WorldMap worldMap) {
         Optional<Coordinates> entityCoordinateOpt = worldMap.getEntityCoordinate(entity);
         if (entityCoordinateOpt.isEmpty()) {
