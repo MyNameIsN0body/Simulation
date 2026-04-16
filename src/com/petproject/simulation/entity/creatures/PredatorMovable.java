@@ -16,9 +16,6 @@ public class PredatorMovable extends BaseMovable {
 
     @Override
     protected void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap) {
-        worldMap.removeEntity(targetCoordinate);
-        worldMap.moveEntity(worldMap.getEntityCoordinate(creature).orElse(null), targetCoordinate, creature);
-
         creature.setEnergy(creature.getEnergy() + ENERGY_FROM_HERBIVORE);
     }
 

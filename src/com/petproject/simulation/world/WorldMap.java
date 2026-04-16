@@ -87,17 +87,5 @@ public class WorldMap {
             entityMap.remove(keyRemove);
         }
     }
-    public boolean moveEntity(Coordinates from, Coordinates to, Entity entity) {
-        Optional <Entity> entityAtSource = getEntity(from);
-        if (entityAtSource.isEmpty() || entityAtSource.get() != entity) {
-            return false;
-        }
-        if (getEntity(to).isPresent() && !from.equals(to)) {
-            return false;
-        }
 
-        removeEntity(from);
-        putEntity(to, entity);
-        return true;
-    }
 }

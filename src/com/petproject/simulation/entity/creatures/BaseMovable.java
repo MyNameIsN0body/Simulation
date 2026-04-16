@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public abstract class BaseMovable implements Movable {
     protected abstract Class<? extends Entity> getTargetClass();
+
     protected abstract void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);
 
     protected abstract void onNoTargetFound(Creature creature, WorldMap worldMap);
@@ -26,47 +27,58 @@ public abstract class BaseMovable implements Movable {
         }
     }
 
-    private void moveToStep(Creature creature, Coordinates nextStep, WorldMap worldMap) {
-        Optional<Coordinates> currentPos = worldMap.getEntityCoordinate(creature);
-        if (currentPos.isEmpty()) {
+    private void moveToStep(Creature creature, Coordinates nextPosition, WorldMap worldMap) {
+        Optional<Coordinates> currentPositionOpt = worldMap.getEntityCoordinate(creature);
+        if (currentPositionOpt.isEmpty()) {
             return;
         }
-
-        Optional<Entity> target = worldMap.getEntity(nextStep);
+        Coordinates currentPosition = currentPositionOpt.get();
+        Optional<Entity> target = worldMap.getEntity(nextPosition);
 
         if (target.isEmpty()) {
-            worldMap.moveEntity(currentPos.get(), nextStep, creature);
+            worldMap.removeEntity(currentPosition);
+            worldMap.putEntity(nextPosition, creature);
             return;
         }
-        if (target.get().canBeEatenBy(creature)) {
-            onReachTarget(creature, nextStep, worldMap);
+        Entity targetEntity = target.get();
+        if (targetEntity.canBeEatenBy(creature)) {
+            worldMap.removeEntity(nextPosition);
+            worldMap.removeEntity(currentPosition);
+            worldMap.putEntity(nextPosition, creature);
+
+            onReachTarget(creature, nextPosition, worldMap);
         } else {
             onNoTargetFound(creature, worldMap);
         }
     }
+
     public static void moveRandomly(Entity entity, WorldMap worldMap) {
         Optional<Coordinates> entityCoordinateOpt = worldMap.getEntityCoordinate(entity);
         if (entityCoordinateOpt.isEmpty()) {
             return;
         }
-        Coordinates entityCoordinate = entityCoordinateOpt.get();
-        for (Direction direction: Direction.shuffled()) {
-            Coordinates newPosition = direction.move(entityCoordinate);
-            if (canMove(entity, newPosition, worldMap)) {
-                worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
+        Coordinates currentPosition = entityCoordinateOpt.get();
+        for (Direction direction : Direction.shuffled()) {
+            Coordinates nextPosition = direction.move(currentPosition);
+
+            if (!worldMap.isValidCoordinate(nextPosition)) {
+                continue;
+            }
+
+            Optional<Entity> occupant = worldMap.getEntity(nextPosition);
+
+            if (occupant.isEmpty()) {
+                worldMap.removeEntity(currentPosition);
+                worldMap.putEntity(nextPosition, entity);
+                break;
+            }
+            if (occupant.get().canBeEnteredBy(entity)) {
+                worldMap.removeEntity(occupant.get());
+                worldMap.removeEntity(currentPosition);
+                worldMap.putEntity(nextPosition, entity);
                 break;
             }
         }
     }
-    private static boolean canMove(Entity entity, Coordinates target, WorldMap worldMap) {
-        if (!worldMap.isValidCoordinate(target)) {
-            return false;
-        }
 
-        Optional<Entity> occupant = worldMap.getEntity(target);
-        if (occupant.isEmpty()) {
-            return true;
-        }
-        return occupant.get().canBeEnteredBy(entity);
-    }
 }

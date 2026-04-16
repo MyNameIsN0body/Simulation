@@ -36,7 +36,9 @@ public abstract class BaseHunter implements Hunter {
         Optional<Entity> target = worldMap.getEntity(targetStep);
 
         if (target.isEmpty()) {
-            worldMap.moveEntity(currentPos.get(), targetStep, creature);
+            worldMap.removeEntity(creature);
+            worldMap.putEntity(targetStep,creature);
+//            worldMap.moveEntity(currentPos.get(), targetStep, creature);
         } else if (canEatTarget(target.orElse(null))) {
             // Съедаем цель
             onEatTarget(creature, targetStep, worldMap);
@@ -67,7 +69,9 @@ public abstract class BaseHunter implements Hunter {
         for (Direction direction: Direction.shuffled()) {
             Coordinates newPosition = direction.move(entityCoordinate);
             if (canMove(entity, newPosition, worldMap)) {
-                worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
+                worldMap.removeEntity(entity);
+                worldMap.putEntity(newPosition,entity);
+//                worldMap.moveEntity(entityCoordinateOpt.get(), newPosition, entity);
                 break;
             }
         }

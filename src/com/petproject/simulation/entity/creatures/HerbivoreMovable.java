@@ -19,8 +19,6 @@ public class HerbivoreMovable extends BaseMovable {
 
     @Override
     protected void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap) {
-        worldMap.removeEntity(targetCoordinate);
-        worldMap.moveEntity(worldMap.getEntityCoordinate(creature).orElse(null),targetCoordinate, creature);
         creature.setEnergy(creature.getEnergy() + ENERGY_FROM_GRASS);
     }
 
@@ -44,7 +42,9 @@ public class HerbivoreMovable extends BaseMovable {
 
             if (worldMap.isValidCoordinate(runDirection) &&
                     worldMap.isCellEmpty(runDirection)) {
-                worldMap.moveEntity(currentPos.get(),runDirection, creature);
+                worldMap.removeEntity(creature);
+                worldMap.putEntity(runDirection,creature);
+//                worldMap.moveEntity(currentPos.get(),runDirection, creature);
                 return true;
             }
         }

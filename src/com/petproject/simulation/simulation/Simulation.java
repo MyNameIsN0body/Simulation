@@ -2,9 +2,6 @@ package com.petproject.simulation.simulation;
 
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.creatures.Creature;
-import com.petproject.simulation.entity.creatures.Herbivore;
-import com.petproject.simulation.entity.creatures.Predator;
-import com.petproject.simulation.entity.resources.Grass;
 import com.petproject.simulation.render.MapConsoleRenderer;
 import com.petproject.simulation.simulation.actions.*;
 import com.petproject.simulation.world.WorldMap;
