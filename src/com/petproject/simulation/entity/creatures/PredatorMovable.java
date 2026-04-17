@@ -7,21 +7,41 @@ import com.petproject.simulation.world.WorldMap;
 
 public class PredatorMovable extends BaseMovable {
     private static final int ENERGY_FROM_HERBIVORE = 5;
-    private static final int ENERGY_FOR_STEP = 2;
 
     @Override
-    protected  Class<? extends Entity> getTargetClass() {
+    protected Class<? extends Entity> getTargetClass() {
         return Herbivore.class;
     }
 
     @Override
     protected void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap) {
+        worldMap.removeEntity(targetCoordinate);
+        relocate(creature, targetCoordinate, worldMap);
+
         creature.setEnergy(creature.getEnergy() + ENERGY_FROM_HERBIVORE);
+
     }
 
     @Override
-    protected void onNoTargetFound(Creature creature, WorldMap worldMap) {
+    protected void onEmptyCell(Creature creature,
+                               Coordinates coordinate,
+                               WorldMap worldMap) {
+
+        relocate(creature, coordinate, worldMap);
+    }
+
+    @Override
+    protected void onBlocked(Creature creature, WorldMap worldMap) {
         moveRandomly(creature, worldMap);
-        creature.setEnergy(creature.getEnergy() - ENERGY_FOR_STEP);
+    }
+
+    private void relocate(Creature creature,
+                          Coordinates to,
+                          WorldMap worldMap) {
+
+        Coordinates from = worldMap.getEntityCoordinate(creature).orElseThrow();
+
+        worldMap.removeEntity(from);
+        worldMap.putEntity(to, creature);
     }
 }

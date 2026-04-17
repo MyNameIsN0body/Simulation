@@ -8,47 +8,39 @@ import com.petproject.simulation.world.WorldMap;
 
 import java.util.Optional;
 
-public abstract class BaseMovable implements Movable {
+public abstract class BaseMovable {
     protected abstract Class<? extends Entity> getTargetClass();
 
     protected abstract void onReachTarget(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);
 
-    protected abstract void onNoTargetFound(Creature creature, WorldMap worldMap);
+    protected abstract void onEmptyCell(Creature creature, Coordinates targetCoordinate, WorldMap worldMap);
 
-    @Override
+    protected abstract void onBlocked(Creature creature, WorldMap worldMap);
+
     public void move(Creature creature, WorldMap worldMap) {
 
-        Optional<Coordinates> nextStep = FinderService.findTarget(creature, worldMap, getTargetClass());
+        Optional<Coordinates> nextStepOpt = FinderService.findTarget(creature, worldMap, getTargetClass());
 
-        if (nextStep.isPresent()) {
-            moveToStep(creature, nextStep.get(), worldMap);
-        } else {
-            onNoTargetFound(creature, worldMap);
+        if (nextStepOpt.isEmpty()) {
+            onBlocked(creature, worldMap);
+            return;
         }
+        Coordinates nextStep = nextStepOpt.get();
+        resolveStep(creature, nextStep, worldMap);
     }
 
-    private void moveToStep(Creature creature, Coordinates nextPosition, WorldMap worldMap) {
-        Optional<Coordinates> currentPositionOpt = worldMap.getEntityCoordinate(creature);
-        if (currentPositionOpt.isEmpty()) {
+    private void resolveStep(Creature creature, Coordinates nextStep, WorldMap worldMap) {
+        Optional<Entity> occupant = worldMap.getEntity(nextStep);
+        if (occupant.isEmpty()) {
+            onEmptyCell(creature, nextStep, worldMap);
             return;
         }
-        Coordinates currentPosition = currentPositionOpt.get();
-        Optional<Entity> target = worldMap.getEntity(nextPosition);
+        Entity target = occupant.get();
 
-        if (target.isEmpty()) {
-            worldMap.removeEntity(currentPosition);
-            worldMap.putEntity(nextPosition, creature);
-            return;
-        }
-        Entity targetEntity = target.get();
-        if (targetEntity.canBeEatenBy(creature)) {
-            worldMap.removeEntity(nextPosition);
-            worldMap.removeEntity(currentPosition);
-            worldMap.putEntity(nextPosition, creature);
-
-            onReachTarget(creature, nextPosition, worldMap);
+        if (target.canBeEnteredBy(creature)) {
+            onReachTarget(creature, nextStep, worldMap);
         } else {
-            onNoTargetFound(creature, worldMap);
+            onBlocked(creature, worldMap);
         }
     }
 
