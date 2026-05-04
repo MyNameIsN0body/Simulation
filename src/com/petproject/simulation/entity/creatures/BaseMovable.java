@@ -16,7 +16,10 @@ public abstract class BaseMovable {
     protected abstract Optional<Coordinates> findStep(Creature creature, WorldMap worldMap);
 
     public void move(Creature creature, WorldMap worldMap) {
-
+        Optional<Coordinates> currentOpt = worldMap.getEntityCoordinate(creature);
+        if (currentOpt.isEmpty()) {
+            return;
+        }
         Optional<Coordinates> nextStepOpt = findStep(creature, worldMap);
 
         if (nextStepOpt.isEmpty()) {

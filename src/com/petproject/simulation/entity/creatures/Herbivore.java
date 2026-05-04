@@ -7,7 +7,6 @@ import com.petproject.simulation.world.WorldMap;
 public class Herbivore extends Creature {
     private final Reproducible reproducible;
     private final HerbivoreMovable herbivoreMove;
-    private final HerbivoreHunter herbivoreHunting;
 
     @Override
     public boolean canBeEatenBy(Creature creature) {
@@ -24,7 +23,6 @@ public class Herbivore extends Creature {
         this.reproductionCooldown = 0;
         this.herbivoreMove = new HerbivoreMovable();
         this.reproducible = new HerbivoreReproducible();
-        this.herbivoreHunting = new HerbivoreHunter();
     }
 
     @Override
@@ -42,12 +40,6 @@ public class Herbivore extends Creature {
         }
     }
 
-    @Override
-    public void makeEat(WorldMap worldMap) {
-        herbivoreHunting.hunt(this, worldMap);
-        reproducible.updateCooldown(this);
-        soulHarvester(worldMap);
-    }
     public GameStats updateStats(GameStats stats) {
         return stats.incrementHerbivore();
     }

@@ -14,9 +14,10 @@ public class MoveAction implements Action {
         List<Entity> entities = new ArrayList<>(worldMap.getAllEntities());
 
         for (Entity entity : entities) {
-            if (entity instanceof Creature creature) {
-                creature.makeMove(worldMap);
+            if (!entity.existsIn(worldMap)) {
+                continue;
             }
+            entity.makeMove(worldMap);
         }
 
     }

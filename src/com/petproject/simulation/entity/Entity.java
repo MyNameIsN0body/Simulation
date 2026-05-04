@@ -18,4 +18,8 @@ public abstract class Entity {
     public GameStats updateStats(GameStats stats) {
         return stats;
     }
+
+    public boolean existsIn(WorldMap worldMap) {
+        return worldMap.getEntityCoordinate(this).isPresent();
+    }
 }
