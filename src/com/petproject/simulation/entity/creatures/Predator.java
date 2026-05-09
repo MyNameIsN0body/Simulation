@@ -1,5 +1,8 @@
 package com.petproject.simulation.entity.creatures;
 
+import com.petproject.simulation.entity.creatures.movement.PredatorMovable;
+import com.petproject.simulation.entity.creatures.reproduction.PredatorReproducible;
+import com.petproject.simulation.entity.creatures.reproduction.Reproducible;
 import com.petproject.simulation.simulation.GameStats;
 import com.petproject.simulation.world.WorldMap;
 
@@ -7,10 +10,10 @@ import com.petproject.simulation.world.WorldMap;
 public class Predator extends Creature {
     private final Reproducible reproducible;
     private final PredatorMovable predatorMove;
+    private static final int DEFAULT_ENERGY = 10;
 
     public Predator() {
-        this.energy = 10;
-        this.reproductionCooldown = 0;
+        setEnergy(DEFAULT_ENERGY);
         this.predatorMove = new PredatorMovable();
         this.reproducible = new PredatorReproducible();
     }

@@ -1,4 +1,4 @@
-package com.petproject.simulation.simulation.actions;
+package com.petproject.simulation.actions;
 
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.entity.creatures.Creature;

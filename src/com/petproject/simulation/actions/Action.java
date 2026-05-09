@@ -1,4 +1,4 @@
-package com.petproject.simulation.simulation.actions;
+package com.petproject.simulation.actions;
 
 import com.petproject.simulation.world.WorldMap;
 

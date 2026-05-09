@@ -1,5 +1,7 @@
-package com.petproject.simulation.entity.creatures;
+package com.petproject.simulation.entity.creatures.movement;
 
+import com.petproject.simulation.entity.creatures.Creature;
+import com.petproject.simulation.entity.creatures.Herbivore;
 import com.petproject.simulation.services.FinderService;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.world.WorldMap;

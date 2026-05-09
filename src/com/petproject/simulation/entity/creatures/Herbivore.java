@@ -1,12 +1,16 @@
 package com.petproject.simulation.entity.creatures;
 
 import com.petproject.simulation.entity.Entity;
+import com.petproject.simulation.entity.creatures.movement.HerbivoreMovable;
+import com.petproject.simulation.entity.creatures.reproduction.HerbivoreReproducible;
+import com.petproject.simulation.entity.creatures.reproduction.Reproducible;
 import com.petproject.simulation.simulation.GameStats;
 import com.petproject.simulation.world.WorldMap;
 
 public class Herbivore extends Creature {
     private final Reproducible reproducible;
     private final HerbivoreMovable herbivoreMove;
+    private static final int DEFAULT_ENERGY = 9;
 
     @Override
     public boolean canBeEatenBy(Creature creature) {
@@ -19,8 +23,7 @@ public class Herbivore extends Creature {
     }
 
     public Herbivore() {
-        this.energy = 9;
-        this.reproductionCooldown = 0;
+        setEnergy(DEFAULT_ENERGY);
         this.herbivoreMove = new HerbivoreMovable();
         this.reproducible = new HerbivoreReproducible();
     }

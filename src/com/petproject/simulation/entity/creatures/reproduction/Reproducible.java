@@ -1,5 +1,6 @@
-package com.petproject.simulation.entity.creatures;
+package com.petproject.simulation.entity.creatures.reproduction;
 
+import com.petproject.simulation.entity.creatures.Creature;
 import com.petproject.simulation.world.WorldMap;
 
 public interface Reproducible {

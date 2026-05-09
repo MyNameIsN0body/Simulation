@@ -26,53 +26,53 @@ public final class GameMessenger {
             """;
 
     private final static String AUTO_MENU = """
-                        \u001B[36m╔═══════════════════════════════════╗\u001B[0m
-                        \u001B[36m║\u001B[33m     УПРАВЛЕНИЕ СИМУЛЯЦИЕЙ         \u001B[36m║\u001B[0m
-                        \u001B[36m╠═══════════════════════════════════╣\u001B[0m
-                        \u001B[36m║\u001B[32m  run/r       Старт симуляции      \u001B[36m║\u001B[0m
-                        \u001B[36m║\u001B[34m  pause/p    Пауза                 \u001B[36m║\u001B[0m
-                        \u001B[36m║\u001B[33m  continue/c Продолжить            \u001B[36m║\u001B[0m
-                        \u001B[36m║\u001B[36m  step/s     Сделать шаг вручную   \u001B[36m║\u001B[0m  
-                        \u001B[36m║\u001B[34m  menu/m     Показать меню         \u001B[36m║\u001B[0m  
-                        \u001B[36m║\u001B[31m  exit/e     Выход                 \u001B[36m║\u001B[0m  
-                        \u001B[36m╚═══════════════════════════════════╝\u001B[0m
-                """;
+                                    \u001B[36m╔═══════════════════════════════════╗\u001B[0m
+                                    \u001B[36m║\u001B[33m     УПРАВЛЕНИЕ СИМУЛЯЦИЕЙ         \u001B[36m║\u001B[0m
+                                    \u001B[36m╠═══════════════════════════════════╣\u001B[0m
+                                    \u001B[36m║\u001B[32m  run/r       Старт симуляции      \u001B[36m║\u001B[0m
+                                    \u001B[36m║\u001B[34m  pause/p    Пауза                 \u001B[36m║\u001B[0m
+                                    \u001B[36m║\u001B[36m  step/s     Сделать шаг вручную   \u001B[36m║\u001B[0m  
+                                    \u001B[36m║\u001B[34m  menu/m     Показать меню         \u001B[36m║\u001B[0m  
+                                    \u001B[36m║\u001B[31m  exit/e     Выход                 \u001B[36m║\u001B[0m  
+                                    \u001B[36m╚═══════════════════════════════════╝\u001B[0m
+            """;
 
-    private final static String STEP_BY_STEP_MENU = """
-       \u001B[36m╔════════════════════════════════════════════╗\u001B[0m
-       \u001B[36m║\u001B[33m         СИСТЕМА УПРАВЛЕНИЯ СИМУЛЯЦИЕЙ      \u001B[36m║\u001B[0m
-       \u001B[36m╠════════════════════════════════════════════╣\u001B[0m
-       \u001B[36m║\u001B[34m  step/s          \u001B[37m▶  Сделать ход            \u001B[36m║\u001B[0m
-       \u001B[36m║\u001B[32m  reproduce/r     \u001B[37m⏩  Попытка размножения    \u001B[36m║\u001B[0m
-       \u001B[36m║\u001B[33m  +grass/ag       \u001B[37m+  Добавить травы         \u001B[36m║\u001B[0m
-       \u001B[36m║\u001B[36m  menu/m          \u001B[37m📋 Показать меню          \u001B[36m║\u001B[0m
-       \u001B[36m║\u001B[31m  exit/e          \u001B[37m⏹  Выход                  \u001B[36m║\u001B[0m
-       \u001B[36m╚════════════════════════════════════════════╝\u001B[0m
-    """;
+    private final static String START_INFO = "\uD83D\uDE80 Симуляция запущена";
+    private final static String STEP_INFO = "\uD83D\uDEB6 Сделан ход";
+    private final static String PAUSE_INFO = "⌛ Пауза";
+    private final static String EXIT_INFO = "\uD83D\uDEAB Выход...";
 
     public static void displayIntro() {
         System.out.println("\n".repeat(3) + START_BANNER);
-    }
-
-    public static void displaySelectMode() {
-        System.out.println(SELECT_MODE_TEXT);
-    }
-
-    public static void showStepByStepModeMenu() {
-        System.out.println(STEP_BY_STEP_MENU);
     }
 
     public static void showAutoModeMenu() {
         System.out.println(AUTO_MENU);
     }
 
+    public static void showInfoStep() {
+        System.out.println(STEP_INFO);
+    }
+
+    public static void showInfoPause() {
+        System.out.println(PAUSE_INFO);
+    }
+
+    public static void showInfoStart() {
+        System.out.println(START_INFO);
+    }
+
+    public static void showInfoExit() {
+        System.out.println(EXIT_INFO);
+    }
+
     public static void showStatus(GameStats stats) {
 
         System.out.printf("""
-                          \u001B[33m Состояние игры:\u001B[0m
-              ⏱️ Ход номер: \u001B[32m%-2d\u001B[0m     🌱 Травы:      \u001B[32m%-2d\u001B[0m
-              🦖 Хищников:  \u001B[32m%-2d\u001B[0m     🦌 Травоядных: \u001B[32m%-2d\u001B[0m
-        """, stats.getTurn(), stats.getGrass(), stats.getPredators(), stats.getHerbivore());
+                                  \u001B[33m Состояние игры:\u001B[0m
+                      ⏱️ Ход номер: \u001B[32m%-2d\u001B[0m     🌱 Травы:      \u001B[32m%-2d\u001B[0m
+                      🦖 Хищников:  \u001B[32m%-2d\u001B[0m     🦌 Травоядных: \u001B[32m%-2d\u001B[0m
+                """, stats.getTurn(), stats.getGrass(), stats.getPredators(), stats.getHerbivore());
         System.out.println("\n".repeat(3));
     }
 

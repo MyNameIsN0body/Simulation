@@ -1,58 +1,91 @@
 package com.petproject.simulation.simulation;
 
+import java.util.Scanner;
+
 public class SimulationController {
 
     private final Simulation simulation;
+    private final Scanner scanner;
 
     private volatile boolean running = true;
-    private volatile boolean paused = false;
+    private volatile boolean paused = true;
 
-    public SimulationController(Simulation simulation) {
+    public SimulationController(Simulation simulation, Scanner scanner) {
         this.simulation = simulation;
+        this.scanner = scanner;
     }
 
-    public void startLoop() {
-        Thread loop = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (running) {
+    public void run() {
 
-                    if (!paused) {
-                        simulation.nextTurn();
-                    }
+        startSimulationLoop();
 
-                    sleep(1000);
+        GameMessenger.showAutoModeMenu();
+
+        while (running) {
+
+            String command = scanner.nextLine().trim();
+
+            handleCommand(command);
+        }
+
+        System.out.println("Симуляция завершена.");
+    }
+
+    private void startSimulationLoop() {
+
+        Thread simulationThread = new Thread(() -> {
+
+            while (running) {
+
+                if (!paused) {
+                    simulation.nextTurn();
                 }
+
+                sleep(1000);
             }
         });
 
-        loop.start();
+        simulationThread.setDaemon(true);
+        simulationThread.start();
     }
 
-    public void handleCommand(String command) {
+    private void handleCommand(String command) {
+
         switch (command) {
 
-            case "pause":
-                paused = true;
-                System.out.println("⏸ Пауза");
+            case "run":
+            case "r":
+                paused = false;
+               GameMessenger.showInfoStart();
                 break;
 
-            case "run":
-                paused = false;
-                System.out.println("▶ Продолжение");
+            case "pause":
+            case "p":
+                paused = true;
+                GameMessenger.showInfoPause();
                 break;
 
             case "step":
-                simulation.step();
-                break;
+            case "s":
 
-            case "exit":
-                running = false;
-                System.out.println("⛔ Выход...");
+                if (paused) {
+                    GameMessenger.showInfoStep();
+                    simulation.nextTurn();
+                } else {
+                    System.out.println("Сначала поставьте на паузу");
+                }
+
                 break;
 
             case "menu":
+            case "m":
                 GameMessenger.showAutoModeMenu();
+                break;
+
+            case "exit":
+            case "e":
+                running = false;
+                GameMessenger.showInfoExit();
                 break;
 
             default:
@@ -60,13 +93,11 @@ public class SimulationController {
         }
     }
 
-    public boolean isRunning() {
-        return running;
-    }
-
     private void sleep(int ms) {
+
         try {
             Thread.sleep(ms);
-        } catch (InterruptedException ignored) {}
+        } catch (InterruptedException ignored) {
+        }
     }
 }

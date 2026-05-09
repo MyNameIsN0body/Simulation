@@ -16,10 +16,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         GameMessenger.displayIntro();
-        GameMessenger.displaySelectMode();
 
-        SimulationController controller = new SimulationController(simulation);
-        SimulationMode simulationMode = new AutoMode(controller, scanner);
-        simulationMode.run();
+        SimulationController controller = new SimulationController(simulation, scanner);
+        controller.run();
     }
 }

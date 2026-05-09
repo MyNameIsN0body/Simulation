@@ -4,13 +4,16 @@ import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.world.WorldMap;
 
 public abstract class Creature extends Entity {
-    protected int energy;
+    private int energy;
     protected int reproductionCooldown;
     protected int maxReproductionCooldown;
 
     public Creature() {
     }
 
+    public void startReproductionCooldown(int cooldown) {
+        resetReproductionCooldown(cooldown);
+    }
 
     public int getReproductionCooldown() {
         return reproductionCooldown;
@@ -40,7 +43,7 @@ public abstract class Creature extends Entity {
     public abstract void makeReproduce(WorldMap worldMap);
 
     public void soulHarvester(WorldMap worldMap) {
-        this.setEnergy(energy - 1);
+        this.setEnergy(getEnergy() - 1);
         checkDeath(worldMap);
     }
     protected void checkDeath(WorldMap worldMap) {

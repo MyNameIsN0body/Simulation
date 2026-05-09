@@ -1,5 +1,6 @@
-package com.petproject.simulation.entity.creatures;
+package com.petproject.simulation.entity.creatures.reproduction;
 
+import com.petproject.simulation.entity.creatures.Creature;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.services.FinderService;
@@ -41,8 +42,8 @@ public abstract class BaseReproducible implements Reproducible {
         }
     }
     protected void resetCooldowns(Creature creature, Creature partner) {
-        creature.resetReproductionCooldown(getCooldown());
-        partner.resetReproductionCooldown(getCooldown());
+        creature.startReproductionCooldown(getCooldown());
+        partner.startReproductionCooldown(getCooldown());
     }
 
     @Override
