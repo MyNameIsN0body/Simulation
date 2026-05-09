@@ -13,11 +13,6 @@ public class Herbivore extends Creature {
     private static final int DEFAULT_ENERGY = 9;
 
     @Override
-    public boolean canBeEatenBy(Creature creature) {
-        return creature instanceof Predator;
-    }
-
-    @Override
     public boolean canBeEnteredBy(Entity entity) {
         return entity instanceof Predator;
     }
