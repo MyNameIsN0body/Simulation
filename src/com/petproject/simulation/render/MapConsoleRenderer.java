@@ -1,8 +1,11 @@
 package com.petproject.simulation.render;
 
+import com.petproject.simulation.entity.Entity;
 import com.petproject.simulation.world.Coordinates;
 import com.petproject.simulation.entity.EntitySprite;
 import com.petproject.simulation.world.WorldMap;
+
+import java.util.Optional;
 
 public class MapConsoleRenderer {
     private static final int SPRITE_WIDTH = 2;
@@ -18,10 +21,11 @@ public class MapConsoleRenderer {
             System.out.print(" ".repeat(INDENT_OUT) + "\u001B[36m║" + " ".repeat(INDENT_IN) + "\u001B[0m");
             for (int x = 0; x < length; x++) {
                 Coordinates coordinates = new Coordinates(x, y);
-                if (worldMap.isCellEmpty(coordinates)) {
+                Optional<Entity> entity = worldMap.getEntity(coordinates);
+                if (entity.isEmpty()) {
                     System.out.print(EntitySprite.EMPTY.getSprite());
                 } else {
-                    System.out.print(renderSprite(coordinates, worldMap));
+                    System.out.print(EntityRenderer.render(entity.get()));
                 }
             }
             System.out.println("\u001B[36m" + " ".repeat(INDENT_IN) + "║\u001B[0m");
@@ -41,9 +45,5 @@ public class MapConsoleRenderer {
         System.out.print(" ".repeat(INDENT_OUT) + "\u001B[36m" + leftChar);
         System.out.print("═".repeat(innerWidth));
         System.out.println(rightChar + "\u001B[0m");
-    }
-
-    private String renderSprite(Coordinates coordinates, WorldMap worldMap) {
-        return EntityRenderer.render(worldMap.getEntity(coordinates).orElseThrow());
     }
 }
