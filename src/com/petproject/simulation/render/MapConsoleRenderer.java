@@ -10,11 +10,13 @@ public class MapConsoleRenderer {
     private static final int INDENT_IN = 1;
 
     public void renderWorld(WorldMap worldMap) {
-        int countSprite = worldMap.getWidth();
-        printBorderLine('╔', '╗', countSprite);
-        for (int y = 0; y < countSprite; y++) {
+        int width = worldMap.getWidth();
+        int length = worldMap.getLength();
+
+        printBorderLine('╔', '╗', width);
+        for (int y = 0; y < width; y++) {
             System.out.print(" ".repeat(INDENT_OUT) + "\u001B[36m║" + " ".repeat(INDENT_IN) + "\u001B[0m");
-            for (int x = 0; x < countSprite; x++) {
+            for (int x = 0; x < length; x++) {
                 Coordinates coordinates = new Coordinates(x, y);
                 if (worldMap.isCellEmpty(coordinates)) {
                     System.out.print(EntitySprite.EMPTY.getSprite());
@@ -24,7 +26,7 @@ public class MapConsoleRenderer {
             }
             System.out.println("\u001B[36m" + " ".repeat(INDENT_IN) + "║\u001B[0m");
         }
-        printBorderLine('╚', '╝', countSprite);
+        printBorderLine('╚', '╝', width);
     }
 
     private void printBorderLine(char leftChar, char rightChar, int countSprite) {

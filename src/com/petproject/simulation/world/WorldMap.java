@@ -5,6 +5,7 @@ import com.petproject.simulation.entity.Entity;
 import java.util.*;
 
 public class WorldMap {
+
     private final int length;
     private final int width;
     private final Random random;
@@ -31,6 +32,10 @@ public class WorldMap {
 
     public int getWidth() {
         return width;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public synchronized boolean isCellEmpty(Coordinates coordinates) {
