@@ -33,7 +33,7 @@ public class Simulation {
         }
     }
 
-    public void nextTurn() {
+    public synchronized void nextTurn() {
         for (Action action : turnActions) {
             action.execute(worldMap);
         }
@@ -45,6 +45,11 @@ public class Simulation {
     private void render() {
         renderer.renderWorld(worldMap);
         GameMessenger.showStatus(calculateGameState());
+    }
+
+    public boolean isGameOver() {
+        GameStats stats = calculateGameState();
+        return stats.getHerbivore() == 0 && stats.getPredators() == 0;
     }
 
     public GameStats calculateGameState() {

@@ -38,7 +38,7 @@ public class SimulationController {
             while (running) {
 
                 if (!paused) {
-                    simulation.nextTurn();
+                    makeTurn();
                 }
 
                 sleep(1000);
@@ -70,7 +70,7 @@ public class SimulationController {
 
                 if (paused) {
                     GameMessenger.showInfoStep();
-                    simulation.nextTurn();
+                    makeTurn();
                 } else {
                     System.out.println("Сначала поставьте на паузу");
                 }
@@ -98,6 +98,15 @@ public class SimulationController {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException ignored) {
+        }
+    }
+
+    private void makeTurn() {
+        simulation.nextTurn();
+        if (simulation.isGameOver()) {
+            running = false;
+            GameMessenger.showInfoGameOver();
+            System.exit(0);
         }
     }
 }

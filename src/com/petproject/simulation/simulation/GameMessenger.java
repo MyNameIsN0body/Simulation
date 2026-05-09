@@ -1,6 +1,7 @@
 package com.petproject.simulation.simulation;
 
 public final class GameMessenger {
+
     private GameMessenger() {
     }
 
@@ -41,6 +42,7 @@ public final class GameMessenger {
     private final static String STEP_INFO = "\uD83D\uDEB6 Сделан ход";
     private final static String PAUSE_INFO = "⌛ Пауза";
     private final static String EXIT_INFO = "\uD83D\uDEAB Выход...";
+    private final static String GAME_OVER_INFO = "☠\uFE0F Все животные погибли";
 
     public static void displayIntro() {
         System.out.println("\n".repeat(3) + START_BANNER);
@@ -64,6 +66,10 @@ public final class GameMessenger {
 
     public static void showInfoExit() {
         System.out.println(EXIT_INFO);
+    }
+
+    public static void showInfoGameOver() {
+        System.out.println(GAME_OVER_INFO);
     }
 
     public static void showStatus(GameStats stats) {

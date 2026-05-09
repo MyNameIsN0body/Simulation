@@ -17,31 +17,27 @@ public class WorldMap {
         this.random = new Random();
     }
 
-    public List<Entity> getAllEntities() {
+    public synchronized List<Entity> getAllEntities() {
         return new ArrayList<>(entityMap.values());
     }
 
-    public void putEntity(Coordinates coordinates, Entity entity) {
+    public synchronized void putEntity(Coordinates coordinates, Entity entity) {
         entityMap.put(coordinates, entity);
     }
 
-    public Optional<Entity> getEntity(Coordinates coordinates) {
+    public synchronized Optional<Entity> getEntity(Coordinates coordinates) {
         return Optional.ofNullable(entityMap.get(coordinates));
-    }
-
-    public int getLength() {
-        return length;
     }
 
     public int getWidth() {
         return width;
     }
 
-    public boolean isCellEmpty(Coordinates coordinates) {
+    public synchronized boolean isCellEmpty(Coordinates coordinates) {
         return !entityMap.containsKey(coordinates);
     }
 
-    public Optional<Coordinates> getEntityCoordinate(Entity entity) {
+    public synchronized Optional<Coordinates> getEntityCoordinate(Entity entity) {
         for (Map.Entry<Coordinates, Entity> currentEntity : entityMap.entrySet()) {
             if (currentEntity.getValue().equals(entity)) {
                 return Optional.of(currentEntity.getKey());
@@ -69,13 +65,13 @@ public class WorldMap {
         return coordinates.x() >= 0 && coordinates.x() < length && coordinates.y() >= 0 && coordinates.y() < width;
     }
 
-    public void removeEntity(Coordinates coordinates) {
+    public synchronized void removeEntity(Coordinates coordinates) {
         if (!isValidCoordinate(coordinates)) {
             throw new IllegalArgumentException("Invalid coordinates");
         }
         entityMap.remove(coordinates);
     }
-    public void removeEntity(Entity entityRemove) {
+    public synchronized void removeEntity(Entity entityRemove) {
         Coordinates keyRemove = null;
         for (Map.Entry<Coordinates, Entity> entry: entityMap.entrySet()) {
             if (entry.getValue().equals(entityRemove)) {

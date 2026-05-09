@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseReproducible implements Reproducible {
+    private static final int MAX_REPRODUCTION_DISTANCE = 1;
     protected abstract int getCooldown();
     protected abstract int getMinEnergy();
     protected abstract Class<? extends Entity> getTargetType();
@@ -59,7 +60,7 @@ public abstract class BaseReproducible implements Reproducible {
         }
         List<Coordinates> path = BFSPathfinder.findPath(worldMap, start.get(), targetType);
 
-        if (!path.isEmpty() && path.size() == 1) {
+        if (!path.isEmpty() && path.size() == MAX_REPRODUCTION_DISTANCE) {
             Coordinates partnerCoordinate = path.get(0);
             Optional<Entity> entityOpt = worldMap.getEntity(partnerCoordinate);
 
