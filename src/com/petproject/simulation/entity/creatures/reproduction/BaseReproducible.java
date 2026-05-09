@@ -37,7 +37,7 @@ public abstract class BaseReproducible implements Reproducible {
             babyPosition = FinderService.findEmptyCellNear(partner, worldMap);
         }
         if (babyPosition.isPresent()) {
-            worldMap.putEntity(babyPosition.orElse(null), createBabyCreature());
+            worldMap.putEntity(babyPosition.get(), createBabyCreature());
             resetCooldowns(creature, partner);
             applyReproductionCost(creature, partner);
         }

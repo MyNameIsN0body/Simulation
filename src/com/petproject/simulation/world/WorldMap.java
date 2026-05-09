@@ -8,14 +8,13 @@ public class WorldMap {
 
     private final int length;
     private final int width;
-    private final Random random;
+    private static final Random RANDOM = new Random();
 
     private final Map<Coordinates, Entity> entityMap = new HashMap<>();
 
     public WorldMap(int worldLength, int worldWidth) {
         this.length = worldLength;
         this.width = worldWidth;
-        this.random = new Random();
     }
 
     public synchronized List<Entity> getAllEntities() {
@@ -57,8 +56,8 @@ public class WorldMap {
             return Optional.empty();
         }
         while (true) {
-            int x = random.nextInt(length);
-            int y = random.nextInt(width);
+            int x = RANDOM.nextInt(length);
+            int y = RANDOM.nextInt(width);
             Coordinates currentCoordinate = new Coordinates(x,y);
             if (isCellEmpty(currentCoordinate)) {
                 return Optional.of(currentCoordinate);
